@@ -4,7 +4,8 @@
  */
 package com.ptithcm.pe.UI.main;
 
-import com.ptithcm.pe.util.*;
+import com.ptithcm.pe.utilities.TabbedPaneUtilities;
+import com.ptithcm.pe.utilities.Constraints;
 import com.ptithcm.pe.UI.expenditure.ListRevenuesTypeEPanel;
 import com.ptithcm.pe.UI.expenditure.ListGroupTypeEPanel;
 import com.ptithcm.pe.UI.Receipt.ListGroupTypeRPanel;
@@ -68,13 +69,13 @@ public class MainFrame extends javax.swing.JFrame {
         jMenuItem2 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle(com.ptithcm.pe.util.Constraints.TITLE_MAIN);
+        setTitle(com.ptithcm.pe.utilities.Constraints.TITLE_MAIN);
 
         jToolBar1.setRollover(true);
 
         btnRevenuesTypeE.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         btnRevenuesTypeE.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icon_payment32.png"))); // NOI18N
-        btnRevenuesTypeE.setText(com.ptithcm.pe.util.Constraints.TITLE_LIST_EXPENDITURE);
+        btnRevenuesTypeE.setText(com.ptithcm.pe.utilities.Constraints.TITLE_LIST_EXPENDITURE);
         btnRevenuesTypeE.setFocusable(false);
         btnRevenuesTypeE.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnRevenuesTypeE.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -87,7 +88,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         btnListGroupTypeE.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         btnListGroupTypeE.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icon_list32.png"))); // NOI18N
-        btnListGroupTypeE.setText(com.ptithcm.pe.util.Constraints.TITLE_LIST_EXPENDITURE_TYPE);
+        btnListGroupTypeE.setText(com.ptithcm.pe.utilities.Constraints.TITLE_LIST_EXPENDITURE_TYPE);
         btnListGroupTypeE.setFocusable(false);
         btnListGroupTypeE.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnListGroupTypeE.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -101,7 +102,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         btnAddReceipt.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         btnAddReceipt.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icon_receipt32.png"))); // NOI18N
-        btnAddReceipt.setText(com.ptithcm.pe.util.Constraints.TITLE_LIST_RECEIPT);
+        btnAddReceipt.setText(com.ptithcm.pe.utilities.Constraints.TITLE_LIST_RECEIPT);
         btnAddReceipt.setFocusable(false);
         btnAddReceipt.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnAddReceipt.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -114,7 +115,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         btnListReceipt.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         btnListReceipt.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icon_addRec32.png"))); // NOI18N
-        btnListReceipt.setText(com.ptithcm.pe.util.Constraints.TITLE_LIST_RECEIPT_TYPE);
+        btnListReceipt.setText(com.ptithcm.pe.utilities.Constraints.TITLE_LIST_RECEIPT_TYPE);
         btnListReceipt.setFocusable(false);
         btnListReceipt.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnListReceipt.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -128,7 +129,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         btnStatistic.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         btnStatistic.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icon_statistic32.png"))); // NOI18N
-        btnStatistic.setText(com.ptithcm.pe.util.Constraints.STATISTICS);
+        btnStatistic.setText(com.ptithcm.pe.utilities.Constraints.STATISTICS);
         btnStatistic.setFocusable(false);
         btnStatistic.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnStatistic.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -137,7 +138,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         btnCloseTab.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         btnCloseTab.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icon_close32.png"))); // NOI18N
-        btnCloseTab.setText(com.ptithcm.pe.util.Constraints.CLOSE_WINDOWS);
+        btnCloseTab.setText(com.ptithcm.pe.utilities.Constraints.CLOSE_WINDOWS);
         btnCloseTab.setFocusable(false);
         btnCloseTab.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnCloseTab.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -183,7 +184,7 @@ public class MainFrame extends javax.swing.JFrame {
         jMenu2.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
 
         mniListRevenuesTypeE.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        mniListRevenuesTypeE.setText(com.ptithcm.pe.util.Constraints.TITLE_LIST_EXPENDITURE);
+        mniListRevenuesTypeE.setText(com.ptithcm.pe.utilities.Constraints.TITLE_LIST_EXPENDITURE);
         mniListRevenuesTypeE.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mniListRevenuesTypeEActionPerformed(evt);
@@ -192,7 +193,7 @@ public class MainFrame extends javax.swing.JFrame {
         jMenu2.add(mniListRevenuesTypeE);
 
         mniListGroupTypeE.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        mniListGroupTypeE.setText(com.ptithcm.pe.util.Constraints.TITLE_LIST_EXPENDITURE_TYPE);
+        mniListGroupTypeE.setText(com.ptithcm.pe.utilities.Constraints.TITLE_LIST_EXPENDITURE_TYPE);
         mniListGroupTypeE.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mniListGroupTypeEActionPerformed(evt);
@@ -202,7 +203,7 @@ public class MainFrame extends javax.swing.JFrame {
         jMenu2.add(jSeparator2);
 
         mniListRevenuesTypeR.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        mniListRevenuesTypeR.setText(com.ptithcm.pe.util.Constraints.TITLE_LIST_RECEIPT);
+        mniListRevenuesTypeR.setText(com.ptithcm.pe.utilities.Constraints.TITLE_LIST_RECEIPT);
         mniListRevenuesTypeR.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mniListRevenuesTypeRActionPerformed(evt);
@@ -211,7 +212,7 @@ public class MainFrame extends javax.swing.JFrame {
         jMenu2.add(mniListRevenuesTypeR);
 
         mniListGroupTypeR.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        mniListGroupTypeR.setText(com.ptithcm.pe.util.Constraints.TITLE_LIST_RECEIPT_TYPE);
+        mniListGroupTypeR.setText(com.ptithcm.pe.utilities.Constraints.TITLE_LIST_RECEIPT_TYPE);
         mniListGroupTypeR.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mniListGroupTypeRActionPerformed(evt);
@@ -221,7 +222,7 @@ public class MainFrame extends javax.swing.JFrame {
         jMenu2.add(jSeparator3);
 
         mniStatistics.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        mniStatistics.setText(com.ptithcm.pe.util.Constraints.STATISTICS);
+        mniStatistics.setText(com.ptithcm.pe.utilities.Constraints.STATISTICS);
         jMenu2.add(mniStatistics);
 
         jMenuBar1.add(jMenu2);
@@ -311,34 +312,34 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_mniListGroupTypeRActionPerformed
 
     private void showListRevenuesTypeE(){
-       boolean flag = Utilities.checkTabbedExist(Constraints.TITLE_LIST_EXPENDITURE, tabbedPane);
+       boolean flag = TabbedPaneUtilities.checkTabbedExist(Constraints.TITLE_LIST_EXPENDITURE, tabbedPane);
         if (flag == false){
             ListRevenuesTypeEPanel listExp = new ListRevenuesTypeEPanel();
-            Utilities.createTab(tabbedPane, Constraints.TITLE_LIST_EXPENDITURE, listExp);
+            TabbedPaneUtilities.createTab(tabbedPane, Constraints.TITLE_LIST_EXPENDITURE, listExp);
         }
     }
     
     private void showListGroupTypeE(){
-       boolean flag = Utilities.checkTabbedExist(Constraints.TITLE_LIST_EXPENDITURE_TYPE, tabbedPane);
+       boolean flag = TabbedPaneUtilities.checkTabbedExist(Constraints.TITLE_LIST_EXPENDITURE_TYPE, tabbedPane);
         if (flag == false){
             ListGroupTypeEPanel listGrExp = new ListGroupTypeEPanel();
-            Utilities.createTab(tabbedPane, Constraints.TITLE_LIST_EXPENDITURE_TYPE, listGrExp);
+            TabbedPaneUtilities.createTab(tabbedPane, Constraints.TITLE_LIST_EXPENDITURE_TYPE, listGrExp);
         }
     }
     
     private void showListRevenuesTypeR(){
-       boolean flag = Utilities.checkTabbedExist(Constraints.TITLE_LIST_RECEIPT, tabbedPane);
+       boolean flag = TabbedPaneUtilities.checkTabbedExist(Constraints.TITLE_LIST_RECEIPT, tabbedPane);
         if (flag == false){
             ListRevenuesTypeRPanel listRec = new ListRevenuesTypeRPanel();
-            Utilities.createTab(tabbedPane, Constraints.TITLE_LIST_RECEIPT, listRec);
+            TabbedPaneUtilities.createTab(tabbedPane, Constraints.TITLE_LIST_RECEIPT, listRec);
         }
     }
     
     private void showListGroupTypeR(){
-       boolean flag = Utilities.checkTabbedExist(Constraints.TITLE_LIST_RECEIPT_TYPE, tabbedPane);
+       boolean flag = TabbedPaneUtilities.checkTabbedExist(Constraints.TITLE_LIST_RECEIPT_TYPE, tabbedPane);
         if (flag == false){
             ListGroupTypeRPanel listGrRec = new ListGroupTypeRPanel();
-            Utilities.createTab(tabbedPane, Constraints.TITLE_LIST_RECEIPT_TYPE, listGrRec);
+            TabbedPaneUtilities.createTab(tabbedPane, Constraints.TITLE_LIST_RECEIPT_TYPE, listGrRec);
         }
     }
     /**

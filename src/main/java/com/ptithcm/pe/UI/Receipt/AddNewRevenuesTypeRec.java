@@ -55,12 +55,12 @@ public class AddNewRevenuesTypeRec extends javax.swing.JDialog {
         btnCancel = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle(com.ptithcm.pe.util.Constraints.TITLE_ADD_NEW_RECEIPT);
+        setTitle(com.ptithcm.pe.utilities.Constraints.TITLE_ADD_NEW_RECEIPT);
 
         jLabel1.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 0, 153));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText(com.ptithcm.pe.util.Constraints.TITLE_ADD_NEW_RECEIPT);
+        jLabel1.setText(com.ptithcm.pe.utilities.Constraints.TITLE_ADD_NEW_RECEIPT);
         jLabel1.setPreferredSize(new java.awt.Dimension(800, 50));
 
         lblType.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N

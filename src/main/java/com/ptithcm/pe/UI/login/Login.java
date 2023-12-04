@@ -4,10 +4,12 @@
  */
 package com.ptithcm.pe.UI.login;
 
+import com.ptithcm.pe.PersonalFinanceManagement;
 import com.ptithcm.pe.UI.main.MainFrame;
 import com.ptithcm.pe.dao.UserDAO;
-import com.ptithcm.pe.util.Constraints;
-import com.ptithcm.pe.util.PasswordHashing;
+import com.ptithcm.pe.model.User;
+import com.ptithcm.pe.utilities.Constraints;
+import com.ptithcm.pe.utilities.PasswordUtilities;
 import javax.swing.JOptionPane;
 
 /**
@@ -196,7 +198,7 @@ public class Login extends javax.swing.JFrame {
             return;
         }
 
-        String hashPassword = PasswordHashing.toSha1(password);
+        String hashPassword = PasswordUtilities.toSha1(password);
         if (UserDAO.getInstance().login(userName, hashPassword) == 2){
             JOptionPane.showMessageDialog(this, Constraints.USER_NOT_EXIST, Constraints.LOGIN_ERROR, JOptionPane.ERROR_MESSAGE);
             return;
@@ -206,7 +208,8 @@ public class Login extends javax.swing.JFrame {
             return;
         }
         JOptionPane.showMessageDialog(this, Constraints.LOGIN_SUCCESS, Constraints.NOTIFY, JOptionPane.INFORMATION_MESSAGE);
-
+        User user = UserDAO.getInstance().selectByUsername(userName);
+        PersonalFinanceManagement.getInstance().setUserId(user.getId());
         this.dispose();
         new MainFrame().setVisible(true);
     }//GEN-LAST:event_btnLoginActionPerformed

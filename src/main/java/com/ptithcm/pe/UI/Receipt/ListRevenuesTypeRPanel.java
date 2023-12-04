@@ -54,7 +54,7 @@ public class ListRevenuesTypeRPanel extends javax.swing.JPanel {
         jLabel1.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 0, 153));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText(com.ptithcm.pe.util.Constraints.TITLE_LIST_RECEIPT);
+        jLabel1.setText(com.ptithcm.pe.utilities.Constraints.TITLE_LIST_RECEIPT);
         add(jLabel1);
         jLabel1.setBounds(0, 0, 800, 65);
         add(jSeparator1);

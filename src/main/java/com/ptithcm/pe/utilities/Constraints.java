@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.ptithcm.pe.util;
+package com.ptithcm.pe.utilities;
 
 /**
  *
@@ -13,6 +13,7 @@ public class Constraints {
     public static final String NOTIFY = "Thông báo";
     public static final String LOGIN = "Đăng nhập";
     public static final String REGISTER = "Đăng ký";
+    public static final String VERIFY = "Xác thực";
     /* Tabbed Pane */
     public static final String TITLE_ADD_NEW_EXPENDITURE_TYPE = "Thêm danh mục chi tiêu mới";
     public static final String TITLE_LIST_EXPENDITURE_TYPE = "Danh mục chi tiêu";
@@ -46,14 +47,17 @@ public class Constraints {
     public static final String PASSWORD_IS_INVALID = "Vui lòng nhập mật khẩu bao gồm ít nhất 1 kí tự thường, 1 kí tự in hoa và 1 kí tự đặc biệt";
     public static final String EMAIL_IS_EMPTY = "Vui lòng không để trống Email!"; 
     public static final String EMAIL_IS_SHORT = "Vui lòng nhập tên người dùng nằm trong khoảng độ dài giữa 6 và 30";    
-    public static final String EMAIL_IS_LONG = "Vui lòng nhập địa chỉ email tối đa 255 kí tự";    
-    public static final String EMAIL_IS_INVALID = "Vui lòng nhập Email đúng định dạng:"
-            + "\n\t - Tên người dùng chỉ bao gồm các kí tự chữ cái, số và dấu chấm."
-            + "\n\t - Tên người dùng không chứa 2 dấu chấm liên tiếp."
-            + "\n\t - Tên người dùng không bắt đầu và kết thúc bằng dấu chấm.";
-    
-    
-    
-    public static final String REGISTER_ERROR = "Lỗi đăng ký tài khoản, vui lòng thử lại";
+    public static final String EMAIL_IS_LONG = "Vui lòng nhập địa chỉ email tối đa 255 kí tự";
+    public static final String EMAIL_IS_INVALID = """
+            Vui lòng nhập Email đúng định dạng:
+            \t - Tên người dùng chỉ bao gồm các kí tự chữ cái, số và dấu chấm.
+            \t - Tên người dùng không chứa 2 dấu chấm liên tiếp.
+            \t - Tên người dùng không bắt đầu và kết thúc bằng dấu chấm.""";
+    public static final String VERIFICATION_CODE_IS_EMPTY = "Vui lòng nhập mã xác nhận";
+    public static final String VERIFICATION_CODE_IS_INVALID = "Mã xác nhận không chính xác, vui lòng thử lại";
+    public static final String SEND_VERIFICATION_CODE_SUCCESS = "Gửi mã xác nhận thành công";
+    public static final String SEND_VERIFICATION_CODE_FAIL = "Gửi mã xác nhận thất bại, vui lòng thử lại";
+
+    public static final String REGISTER_ERROR = "Lỗi đăng ký tài khoản";
     public static final String REGISTER_SUCCESS = "Đăng ký tài khoản thành công";
 }

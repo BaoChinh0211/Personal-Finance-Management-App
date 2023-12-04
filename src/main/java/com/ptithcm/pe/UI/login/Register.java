@@ -6,10 +6,13 @@ package com.ptithcm.pe.UI.login;
 
 import com.ptithcm.pe.dao.UserDAO;
 import com.ptithcm.pe.model.User;
-import com.ptithcm.pe.util.CheckValidated;
-import com.ptithcm.pe.util.Constraints;
-import com.ptithcm.pe.util.PasswordHashing;
-import javax.swing.JOptionPane;
+import com.ptithcm.pe.utilities.ValidityUtilities;
+import com.ptithcm.pe.utilities.Constraints;
+import com.ptithcm.pe.utilities.MailUtilities;
+import com.ptithcm.pe.utilities.PasswordUtilities;
+import org.apache.commons.lang3.RandomStringUtils;
+
+import javax.swing.*;
 
 /**
  *
@@ -54,9 +57,9 @@ public class Register extends javax.swing.JFrame {
         btnLogin = new javax.swing.JButton();
         btnRegister = new javax.swing.JButton();
         btnExit = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        lbVerificationCode = new javax.swing.JLabel();
+        txtVerificationCode = new javax.swing.JTextField();
+        btnSendCode = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -135,19 +138,19 @@ public class Register extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jLabel1.setText("Mã xác thực:");
-        jLabel1.setPreferredSize(new java.awt.Dimension(125, 30));
+        lbVerificationCode.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        lbVerificationCode.setText("Mã xác thực:");
+        lbVerificationCode.setPreferredSize(new java.awt.Dimension(125, 30));
 
-        jTextField1.setPreferredSize(new java.awt.Dimension(375, 30));
+        txtVerificationCode.setPreferredSize(new java.awt.Dimension(375, 30));
 
-        jButton1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icon_captcha20.png"))); // NOI18N
-        jButton1.setText("Gửi mã");
-        jButton1.setPreferredSize(new java.awt.Dimension(125, 35));
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnSendCode.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        btnSendCode.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icon_captcha20.png"))); // NOI18N
+        btnSendCode.setText("Gửi mã");
+        btnSendCode.setPreferredSize(new java.awt.Dimension(125, 35));
+        btnSendCode.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnSendCodeActionPerformed(evt);
             }
         });
 
@@ -189,11 +192,11 @@ public class Register extends javax.swing.JFrame {
                                 .addComponent(txtUsername, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGroup(layout.createSequentialGroup()
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lbVerificationCode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGap(18, 18, 18)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtVerificationCode, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGap(18, 18, 18)
-                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(btnSendCode, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -237,9 +240,9 @@ public class Register extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(4, 4, 4)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(txtVerificationCode, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lbVerificationCode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSendCode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -272,16 +275,17 @@ public class Register extends javax.swing.JFrame {
         String password = new String(txtPassword.getPassword());
         String confirm = new String(txtConfirm.getPassword());
         String email = txtEmail.getText().toString().trim();
+        String code = txtVerificationCode.getText().toString().trim();
 
         if (name.isEmpty()) {
             JOptionPane.showMessageDialog(this, Constraints.NAME_IS_EMPTY, Constraints.REGISTER_ERROR, JOptionPane.ERROR_MESSAGE);
-        } else if (CheckValidated.checkNameOfUserValid(name) == false) {
+        } else if (!ValidityUtilities.checkNameOfUserValid(name)) {
             JOptionPane.showMessageDialog(this, Constraints.NAME_IS_INVALID, Constraints.REGISTER_ERROR, JOptionPane.ERROR_MESSAGE);
         } else if (username.isEmpty()) {
             JOptionPane.showMessageDialog(this, Constraints.USERNAME_IS_EMPTY, Constraints.REGISTER_ERROR, JOptionPane.ERROR_MESSAGE);
         } else if (username.length() < 6 || username.length() > 20) {
             JOptionPane.showMessageDialog(this, Constraints.USERNAME_IS_SHORT, Constraints.REGISTER_ERROR, JOptionPane.ERROR_MESSAGE);
-        } else if (CheckValidated.checkUsernameValid(username) == false) {
+        } else if (!ValidityUtilities.checkUsernameValid(username)) {
             JOptionPane.showMessageDialog(this, Constraints.USERNAME_IS_INVALID, Constraints.REGISTER_ERROR, JOptionPane.ERROR_MESSAGE);
         } else if (UserDAO.getInstance().selectByUsername(username) != null) {
             JOptionPane.showMessageDialog(this, Constraints.USERNAME_IS_EXITS, Constraints.REGISTER_ERROR, JOptionPane.ERROR_MESSAGE);
@@ -289,7 +293,7 @@ public class Register extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, Constraints.PASSWORD_IS_EMPTY, Constraints.REGISTER_ERROR, JOptionPane.ERROR_MESSAGE);
         } else if (password.length() < 6 || password.length() > 20) {
             JOptionPane.showMessageDialog(this, Constraints.PASSWORD_IS_SHORRT, Constraints.REGISTER_ERROR, JOptionPane.ERROR_MESSAGE);
-        } else if (CheckValidated.checkPasswordValid(password) == false) {
+        } else if (!ValidityUtilities.checkPasswordValid(password)) {
             JOptionPane.showMessageDialog(this, Constraints.PASSWORD_IS_INVALID, Constraints.REGISTER_ERROR, JOptionPane.ERROR_MESSAGE);
         } else if (confirm.isEmpty()) {
             JOptionPane.showMessageDialog(this, Constraints.CONFIRM_PASSWORD_IS_EMPTY, Constraints.REGISTER_ERROR, JOptionPane.ERROR_MESSAGE);
@@ -299,13 +303,18 @@ public class Register extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, Constraints.EMAIL_IS_EMPTY, Constraints.REGISTER_ERROR, JOptionPane.ERROR_MESSAGE);
         } else if (email.length() > 255) {
             JOptionPane.showMessageDialog(this, Constraints.EMAIL_IS_LONG, Constraints.REGISTER_ERROR, JOptionPane.ERROR_MESSAGE);
-        } else if (CheckValidated.checkEmailValid(email) == 1) {
+        } else if (ValidityUtilities.checkEmailValid(email) == 1) {
             JOptionPane.showMessageDialog(this, Constraints.EMAIL_IS_SHORT, Constraints.REGISTER_ERROR, JOptionPane.ERROR_MESSAGE);
-        } else if (CheckValidated.checkEmailValid(email) == 2) {
+        } else if (ValidityUtilities.checkEmailValid(email) == 2) {
             JOptionPane.showMessageDialog(this, Constraints.EMAIL_IS_INVALID, Constraints.REGISTER_ERROR, JOptionPane.ERROR_MESSAGE);
+        }  else if (code.isEmpty()) {
+            JOptionPane.showMessageDialog(this, Constraints.VERIFICATION_CODE_IS_EMPTY, Constraints.REGISTER_ERROR, JOptionPane.ERROR_MESSAGE);
+        }  else if (!code.equals(MailUtilities.getCode())) {
+            System.out.println(MailUtilities.getCode());
+            JOptionPane.showMessageDialog(this, Constraints.VERIFICATION_CODE_IS_INVALID, Constraints.REGISTER_ERROR, JOptionPane.ERROR_MESSAGE);
         } else {
             if (JOptionPane.showConfirmDialog(this, "Bạn chắc chắn muốn đăng ký", "Xác nhận", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-                String hashPassword = PasswordHashing.toSha1(password);
+                String hashPassword = PasswordUtilities.toSha1(password);
                 User user = new User(name, username, hashPassword, email);
                 int result = UserDAO.getInstance().insert(user);
                 if (result > 0) {
@@ -321,9 +330,14 @@ public class Register extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btnRegisterActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void btnSendCodeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSendCodeActionPerformed
+        String code = RandomStringUtils.randomAlphanumeric(6);
+        String emailTo = txtEmail.getText().trim();
+        if(MailUtilities.sendEmail(emailTo,code))
+            JOptionPane.showMessageDialog(this, Constraints.SEND_VERIFICATION_CODE_SUCCESS,Constraints.VERIFY,JOptionPane.INFORMATION_MESSAGE);
+        else
+            JOptionPane.showMessageDialog(this, Constraints.SEND_VERIFICATION_CODE_FAIL,Constraints.VERIFY,JOptionPane.ERROR_MESSAGE);
+    }//GEN-LAST:event_btnSendCodeActionPerformed
 
     /**
      * @param args the command line arguments
@@ -341,13 +355,8 @@ public class Register extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Register.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Register.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Register.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException |
+                 UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(Register.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
@@ -364,12 +373,11 @@ public class Register extends javax.swing.JFrame {
     private javax.swing.JButton btnExit;
     private javax.swing.JButton btnLogin;
     private javax.swing.JButton btnRegister;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JButton btnSendCode;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JLabel lbVerificationCode;
     private javax.swing.JLabel lblConfrm;
     private javax.swing.JLabel lblEmail;
     private javax.swing.JLabel lblName;
@@ -381,5 +389,6 @@ public class Register extends javax.swing.JFrame {
     private javax.swing.JTextField txtName;
     private javax.swing.JPasswordField txtPassword;
     private javax.swing.JTextField txtUsername;
+    private javax.swing.JTextField txtVerificationCode;
     // End of variables declaration//GEN-END:variables
 }

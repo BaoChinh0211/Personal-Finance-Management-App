@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.ptithcm.pe.util;
+package com.ptithcm.pe.utilities;
 
 import java.security.MessageDigest;
 import javax.xml.crypto.dsig.Transform;
@@ -12,7 +12,7 @@ import org.apache.tomcat.util.codec.binary.Base64;
  *
  * @author tezca
  */
-public class PasswordHashing {
+public class PasswordUtilities {
     //md5
     // sha-1 -> Thường được sử dụng
     public static String toSha1(String password){

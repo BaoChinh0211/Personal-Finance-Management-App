@@ -4,7 +4,7 @@
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="2"/>
     <Property name="title" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-      <Connection code="com.ptithcm.pe.util.Constraints.TITLE_ADD_NEW_RECEIPT_TYPE" type="code"/>
+      <Connection code="com.ptithcm.pe.utilities.Constraints.TITLE_ADD_NEW_RECEIPT_TYPE" type="code"/>
     </Property>
   </Properties>
   <SyntheticProperties>
@@ -92,7 +92,7 @@
         </Property>
         <Property name="horizontalAlignment" type="int" value="0"/>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-          <Connection code="com.ptithcm.pe.util.Constraints.TITLE_ADD_NEW_RECEIPT_TYPE" type="code"/>
+          <Connection code="com.ptithcm.pe.utilities.Constraints.TITLE_ADD_NEW_RECEIPT_TYPE" type="code"/>
         </Property>
       </Properties>
     </Component>

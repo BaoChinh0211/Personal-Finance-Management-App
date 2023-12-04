@@ -38,7 +38,7 @@ public class AddNewGroupTypeRec extends javax.swing.JDialog {
         jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle(com.ptithcm.pe.util.Constraints.TITLE_ADD_NEW_RECEIPT_TYPE);
+        setTitle(com.ptithcm.pe.utilities.Constraints.TITLE_ADD_NEW_RECEIPT_TYPE);
 
         jLabel1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel1.setText("Tên:");
@@ -49,7 +49,7 @@ public class AddNewGroupTypeRec extends javax.swing.JDialog {
         jLabel2.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(0, 0, 153));
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText(com.ptithcm.pe.util.Constraints.TITLE_ADD_NEW_RECEIPT_TYPE);
+        jLabel2.setText(com.ptithcm.pe.utilities.Constraints.TITLE_ADD_NEW_RECEIPT_TYPE);
 
         jButton1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jButton1.setText("Lưu");

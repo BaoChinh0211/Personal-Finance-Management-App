@@ -4,11 +4,10 @@
  */
 package com.ptithcm.pe.dao;
 
-import com.ptithcm.pe.PersonalExpenditure;
+import com.ptithcm.pe.PersonalFinanceManagement;
 import com.ptithcm.pe.database.DatabaseHelper;
 import com.ptithcm.pe.model.User;
-import com.ptithcm.pe.util.Constraints;
-import java.awt.Component;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -17,7 +16,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -219,7 +217,7 @@ public class UserDAO implements DAO<User> {
         if (!user.getPassword().equals(password)) {
             return 1;
         }
-        PersonalExpenditure.getInstance().setUserId(user.getId());
+        PersonalFinanceManagement.getInstance().setUserId(user.getId());
         return 0;
     }
 }

@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.ptithcm.pe.util;
+package com.ptithcm.pe.utilities;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
  *
  * @author tezca
  */
-public class CheckValidated {
+public class ValidityUtilities {
 
     public static int checkEmailValid (String email){
         String emailRegex = "^[\\w]+([\\w.][\\w]+)*@[\\w]+(\\.\\w+)+$";

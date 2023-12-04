@@ -8,17 +8,17 @@ package com.ptithcm.pe;
  *
  * @author tezca
  */
-public class PersonalExpenditure {
+public class PersonalFinanceManagement {
     private int userId;
-    private PersonalExpenditure() {
+    private PersonalFinanceManagement() {
     }
  
-    public static PersonalExpenditure getInstance() {
+    public static PersonalFinanceManagement getInstance() {
         return SingletonHelper.INSTANCE;
     }
  
     private static class SingletonHelper {
-        private static final PersonalExpenditure INSTANCE = new PersonalExpenditure();
+        private static final PersonalFinanceManagement INSTANCE = new PersonalFinanceManagement();
     }
     
     public synchronized int getUserId() {

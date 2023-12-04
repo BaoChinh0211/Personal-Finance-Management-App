@@ -1,7 +1,8 @@
 package com.ptithcm.pe.test;
 
-import com.ptithcm.pe.util.CheckValidated;
-import com.ptithcm.pe.util.PasswordHashing;
+import com.ptithcm.pe.utilities.MailUtilities;
+import com.ptithcm.pe.utilities.ValidityUtilities;
+import com.ptithcm.pe.utilities.PasswordUtilities;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -15,9 +16,9 @@ public class TestInsert {
         
         
         System.out.println(RandomStringUtils.randomAlphanumeric(6));
-//        System.out.println("Name 2: " + CheckValidated.checkNameOfUserValid(name2));
-//        System.out.println("Name 3: " + CheckValidated.checkNameOfUserValid(name3));
-//        System.out.println("Name 4: " + CheckValidated.checkNameOfUserValid(name4));
+////        System.out.println("Name 2: " + ValidityUtilities.checkNameOfUserValid(name2));
+////        System.out.println("Name 3: " + ValidityUtilities.checkNameOfUserValid(name3));
+////        System.out.println("Name 4: " + ValidityUtilities.checkNameOfUserValid(name4));
     }
     
     

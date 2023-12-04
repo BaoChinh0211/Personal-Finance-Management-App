@@ -7,7 +7,7 @@ package com.ptithcm.pe.UI.Receipt;
 //import com.ptithcm.pe.UI.Dialogs.AddNewRevenuesTypeE;
 import com.ptithcm.pe.UI.expenditure.AddNewGroupTypeExp;
 import com.ptithcm.pe.UI.Receipt.AddNewGroupTypeRec;
-import com.ptithcm.pe.util.Utilities;
+import com.ptithcm.pe.utilities.TabbedPaneUtilities;
 import java.awt.Frame;
 import javax.swing.SwingUtilities;
 
@@ -49,7 +49,7 @@ public class ListGroupTypeRPanel extends javax.swing.JPanel {
         jLabel1.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 51, 153));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText(com.ptithcm.pe.util.Constraints.TITLE_LIST_RECEIPT_TYPE);
+        jLabel1.setText(com.ptithcm.pe.utilities.Constraints.TITLE_LIST_RECEIPT_TYPE);
         add(jLabel1);
         jLabel1.setBounds(0, 0, 820, 55);
         add(jSeparator1);

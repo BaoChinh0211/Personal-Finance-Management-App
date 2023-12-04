@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
  */
 package com.ptithcm.pe.UI.expenditure;
-import com.ptithcm.pe.util.Utilities;
+import com.ptithcm.pe.utilities.TabbedPaneUtilities;
 import javax.swing.JOptionPane;
 
 /**
@@ -36,7 +36,7 @@ public class AddNewGroupTypeExp extends javax.swing.JDialog {
         jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle(com.ptithcm.pe.util.Constraints.TITLE_ADD_NEW_EXPENDITURE_TYPE);
+        setTitle(com.ptithcm.pe.utilities.Constraints.TITLE_ADD_NEW_EXPENDITURE_TYPE);
 
         jLabel1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel1.setText("Tên:");
@@ -47,7 +47,7 @@ public class AddNewGroupTypeExp extends javax.swing.JDialog {
         jLabel2.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(0, 0, 153));
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText(com.ptithcm.pe.util.Constraints.TITLE_ADD_NEW_EXPENDITURE_TYPE);
+        jLabel2.setText(com.ptithcm.pe.utilities.Constraints.TITLE_ADD_NEW_EXPENDITURE_TYPE);
 
         jButton1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jButton1.setText("Lưu");

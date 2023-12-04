@@ -4,7 +4,7 @@
  */
 package com.ptithcm.pe.test;
 
-import com.ptithcm.pe.util.PasswordHashing;
+import com.ptithcm.pe.utilities.PasswordUtilities;
 
 /**
  *
@@ -12,6 +12,6 @@ import com.ptithcm.pe.util.PasswordHashing;
  */
 public class TestHashingPassword {
     public static void main(String[] args) {
-        System.out.println(PasswordHashing.toSha1("123456"));
+        System.out.println(PasswordUtilities.toSha1("123456"));
     }
 }

@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.ptithcm.pe.util;
+package com.ptithcm.pe.utilities;
 
 import java.awt.Component;
 import javax.swing.*;
@@ -11,7 +11,7 @@ import javax.swing.*;
  *
  * @author tezca
  */
-public class Utilities {
+public class TabbedPaneUtilities {
 
     public static boolean checkTabbedExist(String title, JTabbedPane tab) {
         for (int i = 0; i < tab.getTabCount(); i++) {

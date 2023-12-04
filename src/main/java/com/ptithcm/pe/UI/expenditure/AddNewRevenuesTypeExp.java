@@ -4,7 +4,7 @@
  */
 package com.ptithcm.pe.UI.expenditure;
 
-import com.ptithcm.pe.PersonalExpenditure;
+import com.ptithcm.pe.PersonalFinanceManagement;
 import com.ptithcm.pe.dao.GroupDAO;
 import com.ptithcm.pe.model.Group;
 import java.util.Calendar;
@@ -37,7 +37,7 @@ public class AddNewRevenuesTypeExp extends javax.swing.JDialog {
     public void getDataCombobox(){
         
         DefaultComboBoxModel<String> model = (DefaultComboBoxModel) cbbGroup.getModel();
-        for (Group group : GroupDAO.getInstance().selectbyType(true, PersonalExpenditure.getInstance().getUserId())) {
+        for (Group group : GroupDAO.getInstance().selectbyType(true, PersonalFinanceManagement.getInstance().getUserId())) {
             model.addElement(group.getGroupName());
         }
     }
@@ -72,12 +72,12 @@ public class AddNewRevenuesTypeExp extends javax.swing.JDialog {
         jSeparator2 = new javax.swing.JSeparator();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle(com.ptithcm.pe.util.Constraints.TITLE_ADD_NEW_EXPENDITURE);
+        setTitle(com.ptithcm.pe.utilities.Constraints.TITLE_ADD_NEW_EXPENDITURE);
 
         jLabel1.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 0, 153));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText(com.ptithcm.pe.util.Constraints.TITLE_ADD_NEW_EXPENDITURE);
+        jLabel1.setText(com.ptithcm.pe.utilities.Constraints.TITLE_ADD_NEW_EXPENDITURE);
 
         btnSave.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         btnSave.setText("Lưu");
