@@ -35,7 +35,7 @@ public class MailUtilities {
     }
 
     
-    public static boolean sendEmail(String emailTo, String context) {
+    public static boolean sendEmail(String emailTo, String subject, String context, String code) {
         /* Khai báo các thuộc tính*/
         Properties props = new Properties();
         props.put("mail.smtp.host", "smtp.gmail.com"); // SMTP host
@@ -63,14 +63,14 @@ public class MailUtilities {
             msg.addHeader("Content-type", "text/html; charset =UTF-8");
             msg.setFrom(emailFrom); // -> Người gửi
             msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(emailTo, false)); //-> Người nhận
-            msg.setSubject("Xác thực email đăng ký"); // -> Title email
+            msg.setSubject(subject); // -> Title email
             msg.setSentDate(new Date()); // -> Ngày gửi
             msg.setReplyTo(InternetAddress.parse("no-reply@service.com", false)); //-> Quy định gửi phản hồi
-            msg.setContent("Mã xác thực đăng ký của bạn: " + context, "text/html; charset =UTF-8"); // -> Nội dung Email
+            msg.setContent(context + code, "text/html; charset =UTF-8"); // -> Nội dung Email
 
             // Gửi email
             Transport.send(msg);
-            setCode(context);
+            setCode(code);
             return true;
         } catch (MessagingException ex) {
             Logger.getLogger(MailUtilities.class.getName()).log(Level.SEVERE, null, ex);

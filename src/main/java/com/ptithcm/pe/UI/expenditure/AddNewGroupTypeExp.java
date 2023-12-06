@@ -3,7 +3,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
  */
 package com.ptithcm.pe.UI.expenditure;
+import com.ptithcm.pe.PersonalFinanceManagement;
+import com.ptithcm.pe.dao.GroupDAO;
+import com.ptithcm.pe.model.Group;
+import com.ptithcm.pe.utilities.Constraints;
 import com.ptithcm.pe.utilities.TabbedPaneUtilities;
+import com.ptithcm.pe.utilities.ValidityUtilities;
+
 import javax.swing.JOptionPane;
 
 /**
@@ -11,13 +17,15 @@ import javax.swing.JOptionPane;
  * @author tezca
  */
 public class AddNewGroupTypeExp extends javax.swing.JDialog {
+    private static ListGroupTypeEPanel panel;
 
     /**
      * Creates new form AddNewGroupTypeExp
      */
-    public AddNewGroupTypeExp(java.awt.Frame parent, boolean modal) {
+    public AddNewGroupTypeExp(java.awt.Frame parent, boolean modal, ListGroupTypeEPanel panel) {
         super(parent, modal);
         initComponents();
+        AddNewGroupTypeExp.panel = panel;
     }
 
     /**
@@ -29,36 +37,42 @@ public class AddNewGroupTypeExp extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jLabel2 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        lblTitle = new javax.swing.JLabel();
+        jSeparator1 = new javax.swing.JSeparator();
+        lblName = new javax.swing.JLabel();
+        txtName = new javax.swing.JTextField();
+        btnSave = new javax.swing.JButton();
+        btnCancel = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle(com.ptithcm.pe.utilities.Constraints.TITLE_ADD_NEW_EXPENDITURE_TYPE);
 
-        jLabel1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jLabel1.setText("Tên:");
-        jLabel1.setPreferredSize(new java.awt.Dimension(75, 30));
+        lblTitle.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
+        lblTitle.setForeground(new java.awt.Color(0, 0, 153));
+        lblTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblTitle.setText(com.ptithcm.pe.utilities.Constraints.TITLE_ADD_NEW_EXPENDITURE_TYPE);
 
-        jTextField1.setPreferredSize(new java.awt.Dimension(300, 30));
+        lblName.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        lblName.setText("Nhập tên:");
+        lblName.setPreferredSize(new java.awt.Dimension(75, 30));
 
-        jLabel2.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(0, 0, 153));
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText(com.ptithcm.pe.utilities.Constraints.TITLE_ADD_NEW_EXPENDITURE_TYPE);
+        txtName.setPreferredSize(new java.awt.Dimension(300, 30));
 
-        jButton1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jButton1.setText("Lưu");
-        jButton1.setPreferredSize(new java.awt.Dimension(100, 35));
-
-        jButton2.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jButton2.setText("Hủy");
-        jButton2.setPreferredSize(new java.awt.Dimension(100, 35));
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnSave.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        btnSave.setText("Lưu");
+        btnSave.setPreferredSize(new java.awt.Dimension(100, 35));
+        btnSave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btnSaveActionPerformed(evt);
+            }
+        });
+
+        btnCancel.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        btnCancel.setText("Hủy");
+        btnCancel.setPreferredSize(new java.awt.Dimension(100, 35));
+        btnCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelActionPerformed(evt);
             }
         });
 
@@ -66,41 +80,63 @@ public class AddNewGroupTypeExp extends javax.swing.JDialog {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addGroup(layout.createSequentialGroup()
-                .addGap(50, 50, 50)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(6, 6, 6)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(206, 206, 206)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(25, 25, 25)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jSeparator1)
+                    .addComponent(lblTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(lblName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtName, javax.swing.GroupLayout.DEFAULT_SIZE, 336, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(25, 25, 25)
+                        .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(57, 57, 57)
+                .addComponent(lblTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(12, 12, 12)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(43, 43, 43)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                    .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
         if (JOptionPane.showConfirmDialog(this, "Bạn có muốn thoát", "Xác nhận thoát", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION){
             this.dispose();
         }
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_btnCancelActionPerformed
+
+    private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
+        String nameGroup = txtName.getText().trim();
+        if (nameGroup.isEmpty())
+            JOptionPane.showMessageDialog(this, Constraints.NAME_GROUP_IS_EMPTY, Constraints.ADD_GROUP_ERROR, JOptionPane.ERROR_MESSAGE);
+        else if (!ValidityUtilities.checkNameGroupValid(nameGroup))
+            JOptionPane.showMessageDialog(this, Constraints.NAME_GROUP_IS_INVALID, Constraints.ADD_NEW_GROUP_ERROR, JOptionPane.ERROR_MESSAGE);
+        else {
+            Group group = new Group(nameGroup, true, PersonalFinanceManagement.getInstance().getUserId());
+            System.out.println(group);
+            GroupDAO.getInstance().insert(group);
+            JOptionPane.showMessageDialog(this, Constraints.ADD_NEW_GROUP_SUCCESS, Constraints.NOTIFY, JOptionPane.INFORMATION_MESSAGE);
+            panel.loadData();
+            this.dispose();
+        }
+    }//GEN-LAST:event_btnSaveActionPerformed
 
     /**
      * @param args the command line arguments
@@ -132,7 +168,7 @@ public class AddNewGroupTypeExp extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                AddNewGroupTypeExp dialog = new AddNewGroupTypeExp(new javax.swing.JFrame(), true);
+                AddNewGroupTypeExp dialog = new AddNewGroupTypeExp(new javax.swing.JFrame(), true, panel);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -145,10 +181,11 @@ public class AddNewGroupTypeExp extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JButton btnCancel;
+    private javax.swing.JButton btnSave;
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JLabel lblName;
+    private javax.swing.JLabel lblTitle;
+    private javax.swing.JTextField txtName;
     // End of variables declaration//GEN-END:variables
 }

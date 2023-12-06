@@ -29,7 +29,7 @@ public class AddNewRevenuesTypeExp extends javax.swing.JDialog {
         initComponents();
         setSize(800, 500);
         
-        setDefaultCloseOperation(AddNewRevenuesTypeExp.EXIT_ON_CLOSE);
+//        setDefaultCloseOperation(AddNewRevenuesTypeExp.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         getDataCombobox();
     }
@@ -37,7 +37,7 @@ public class AddNewRevenuesTypeExp extends javax.swing.JDialog {
     public void getDataCombobox(){
         
         DefaultComboBoxModel<String> model = (DefaultComboBoxModel) cbbGroup.getModel();
-        for (Group group : GroupDAO.getInstance().selectbyType(true, PersonalFinanceManagement.getInstance().getUserId())) {
+        for (Group group : GroupDAO.getInstance().selectbyType(true)) {
             model.addElement(group.getGroupName());
         }
     }

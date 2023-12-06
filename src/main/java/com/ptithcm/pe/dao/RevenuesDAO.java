@@ -4,6 +4,7 @@
  */
 package com.ptithcm.pe.dao;
 
+import com.ptithcm.pe.PersonalFinanceManagement;
 import com.ptithcm.pe.database.DatabaseHelper;
 import com.ptithcm.pe.model.Revenues;
 import java.sql.Connection;
@@ -135,7 +136,8 @@ public class RevenuesDAO implements DAO<Revenues> {
             // Bước 2: Tạo ra đối tượng statement
             Statement statement = con.createStatement();
             //Bước 3: Thực thi câu lệnh SQL
-            String sql = "SELECT * FROM [Revenues]";
+            int userId = PersonalFinanceManagement.getInstance().getUserId();
+            String sql = "SELECT * FROM [Revenues] WHERE [UserId] = "+ userId +"";
             ResultSet rs = statement.executeQuery(sql);
             //Bước 4: Làm việc với kết quả thu được
             while (rs.next()) {

@@ -23,7 +23,7 @@ public class MainFrame extends javax.swing.JFrame {
      */
     public MainFrame() {
         initComponents();
-        setSize(1600, 900);
+        setSize(1600,900);
         setDefaultCloseOperation(MainFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setExtendedState(MainFrame.NORMAL);
@@ -47,6 +47,8 @@ public class MainFrame extends javax.swing.JFrame {
         jSeparator7 = new javax.swing.JToolBar.Separator();
         btnStatistic = new javax.swing.JButton();
         jSeparator4 = new javax.swing.JToolBar.Separator();
+        jSeparator9 = new javax.swing.JToolBar.Separator();
+        jButton1 = new javax.swing.JButton();
         btnCloseTab = new javax.swing.JButton();
         tabbedPane = new javax.swing.JTabbedPane();
         jMenuBar1 = new javax.swing.JMenuBar();
@@ -63,6 +65,8 @@ public class MainFrame extends javax.swing.JFrame {
         mniListGroupTypeR = new javax.swing.JMenuItem();
         jSeparator3 = new javax.swing.JPopupMenu.Separator();
         mniStatistics = new javax.swing.JMenuItem();
+        jSeparator8 = new javax.swing.JPopupMenu.Separator();
+        jMenuItem3 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
@@ -127,7 +131,7 @@ public class MainFrame extends javax.swing.JFrame {
         jToolBar1.add(btnListReceipt);
         jToolBar1.add(jSeparator7);
 
-        btnStatistic.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        btnStatistic.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         btnStatistic.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icon_statistic32.png"))); // NOI18N
         btnStatistic.setText(com.ptithcm.pe.utilities.Constraints.STATISTICS);
         btnStatistic.setFocusable(false);
@@ -135,6 +139,15 @@ public class MainFrame extends javax.swing.JFrame {
         btnStatistic.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jToolBar1.add(btnStatistic);
         jToolBar1.add(jSeparator4);
+        jToolBar1.add(jSeparator9);
+
+        jButton1.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icon_myProfile32.png"))); // NOI18N
+        jButton1.setText(Constraints.MY_PROFILE);
+        jButton1.setFocusable(false);
+        jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jToolBar1.add(jButton1);
 
         btnCloseTab.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         btnCloseTab.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icon_close32.png"))); // NOI18N
@@ -224,6 +237,10 @@ public class MainFrame extends javax.swing.JFrame {
         mniStatistics.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         mniStatistics.setText(com.ptithcm.pe.utilities.Constraints.STATISTICS);
         jMenu2.add(mniStatistics);
+        jMenu2.add(jSeparator8);
+
+        jMenuItem3.setText(Constraints.MY_PROFILE);
+        jMenu2.add(jMenuItem3);
 
         jMenuBar1.add(jMenu2);
 
@@ -385,11 +402,13 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JButton btnListReceipt;
     private javax.swing.JButton btnRevenuesTypeE;
     private javax.swing.JButton btnStatistic;
+    private javax.swing.JButton jButton1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
@@ -397,6 +416,8 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator jSeparator5;
     private javax.swing.JToolBar.Separator jSeparator6;
     private javax.swing.JToolBar.Separator jSeparator7;
+    private javax.swing.JPopupMenu.Separator jSeparator8;
+    private javax.swing.JToolBar.Separator jSeparator9;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JMenu menuFile;
     private javax.swing.JMenuItem mniExit;

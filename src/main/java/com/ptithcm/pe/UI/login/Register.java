@@ -62,6 +62,7 @@ public class Register extends javax.swing.JFrame {
         btnSendCode = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle(Constraints.REGISTER);
 
         lblTitle.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
         lblTitle.setForeground(new java.awt.Color(0, 102, 255));
@@ -270,12 +271,12 @@ public class Register extends javax.swing.JFrame {
     }//GEN-LAST:event_btnExitActionPerformed
 
     private void btnRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegisterActionPerformed
-        String name = txtName.getText().toString().trim();
-        String username = txtUsername.getText().toString().trim();
+        String name = txtName.getText().trim();
+        String username = txtUsername.getText().trim();
         String password = new String(txtPassword.getPassword());
         String confirm = new String(txtConfirm.getPassword());
-        String email = txtEmail.getText().toString().trim();
-        String code = txtVerificationCode.getText().toString().trim();
+        String email = txtEmail.getText().trim();
+        String code = txtVerificationCode.getText().trim();
 
         if (name.isEmpty()) {
             JOptionPane.showMessageDialog(this, Constraints.NAME_IS_EMPTY, Constraints.REGISTER_ERROR, JOptionPane.ERROR_MESSAGE);
@@ -283,24 +284,24 @@ public class Register extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, Constraints.NAME_IS_INVALID, Constraints.REGISTER_ERROR, JOptionPane.ERROR_MESSAGE);
         } else if (username.isEmpty()) {
             JOptionPane.showMessageDialog(this, Constraints.USERNAME_IS_EMPTY, Constraints.REGISTER_ERROR, JOptionPane.ERROR_MESSAGE);
+        } else if (password.isEmpty()) {
+            JOptionPane.showMessageDialog(this, Constraints.PASSWORD_IS_EMPTY, Constraints.REGISTER_ERROR, JOptionPane.ERROR_MESSAGE);
+        } else if (confirm.isEmpty()) {
+            JOptionPane.showMessageDialog(this, Constraints.CONFIRM_PASSWORD_IS_EMPTY, Constraints.REGISTER_ERROR, JOptionPane.ERROR_MESSAGE);
+        } else if (email.isEmpty()) {
+            JOptionPane.showMessageDialog(this, Constraints.EMAIL_IS_EMPTY, Constraints.REGISTER_ERROR, JOptionPane.ERROR_MESSAGE);
         } else if (username.length() < 6 || username.length() > 20) {
             JOptionPane.showMessageDialog(this, Constraints.USERNAME_IS_SHORT, Constraints.REGISTER_ERROR, JOptionPane.ERROR_MESSAGE);
         } else if (!ValidityUtilities.checkUsernameValid(username)) {
             JOptionPane.showMessageDialog(this, Constraints.USERNAME_IS_INVALID, Constraints.REGISTER_ERROR, JOptionPane.ERROR_MESSAGE);
         } else if (UserDAO.getInstance().selectByUsername(username) != null) {
             JOptionPane.showMessageDialog(this, Constraints.USERNAME_IS_EXITS, Constraints.REGISTER_ERROR, JOptionPane.ERROR_MESSAGE);
-        } else if (password.isEmpty()) {
-            JOptionPane.showMessageDialog(this, Constraints.PASSWORD_IS_EMPTY, Constraints.REGISTER_ERROR, JOptionPane.ERROR_MESSAGE);
         } else if (password.length() < 6 || password.length() > 20) {
             JOptionPane.showMessageDialog(this, Constraints.PASSWORD_IS_SHORRT, Constraints.REGISTER_ERROR, JOptionPane.ERROR_MESSAGE);
         } else if (!ValidityUtilities.checkPasswordValid(password)) {
             JOptionPane.showMessageDialog(this, Constraints.PASSWORD_IS_INVALID, Constraints.REGISTER_ERROR, JOptionPane.ERROR_MESSAGE);
-        } else if (confirm.isEmpty()) {
-            JOptionPane.showMessageDialog(this, Constraints.CONFIRM_PASSWORD_IS_EMPTY, Constraints.REGISTER_ERROR, JOptionPane.ERROR_MESSAGE);
-        } else if (!password.equals(confirm)) {
+        }  else if (!password.equals(confirm)) {
             JOptionPane.showMessageDialog(this, Constraints.CONFIRM_PASSWORD_IS_INCORRECT, Constraints.REGISTER_ERROR, JOptionPane.ERROR_MESSAGE);
-        } else if (email.isEmpty()) {
-            JOptionPane.showMessageDialog(this, Constraints.EMAIL_IS_EMPTY, Constraints.REGISTER_ERROR, JOptionPane.ERROR_MESSAGE);
         } else if (email.length() > 255) {
             JOptionPane.showMessageDialog(this, Constraints.EMAIL_IS_LONG, Constraints.REGISTER_ERROR, JOptionPane.ERROR_MESSAGE);
         } else if (ValidityUtilities.checkEmailValid(email) == 1) {
@@ -310,7 +311,6 @@ public class Register extends javax.swing.JFrame {
         }  else if (code.isEmpty()) {
             JOptionPane.showMessageDialog(this, Constraints.VERIFICATION_CODE_IS_EMPTY, Constraints.REGISTER_ERROR, JOptionPane.ERROR_MESSAGE);
         }  else if (!code.equals(MailUtilities.getCode())) {
-            System.out.println(MailUtilities.getCode());
             JOptionPane.showMessageDialog(this, Constraints.VERIFICATION_CODE_IS_INVALID, Constraints.REGISTER_ERROR, JOptionPane.ERROR_MESSAGE);
         } else {
             if (JOptionPane.showConfirmDialog(this, "Bạn chắc chắn muốn đăng ký", "Xác nhận", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
@@ -318,11 +318,11 @@ public class Register extends javax.swing.JFrame {
                 User user = new User(name, username, hashPassword, email);
                 int result = UserDAO.getInstance().insert(user);
                 if (result > 0) {
-                    JOptionPane.showMessageDialog(this, Constraints.REGISTER_SUCCESS, Constraints.NOTIFY, result);
+                    JOptionPane.showMessageDialog(this, Constraints.REGISTER_SUCCESS, Constraints.NOTIFY, JOptionPane.INFORMATION_MESSAGE);
                     this.dispose();
                     new Login().setVisible(true);
                 } else {
-                    JOptionPane.showMessageDialog(this, Constraints.REGISTER_ERROR, Constraints.NOTIFY, result);
+                    JOptionPane.showMessageDialog(this, Constraints.REGISTER_ERROR, Constraints.NOTIFY, JOptionPane.INFORMATION_MESSAGE);
                 }
             }
         }
@@ -333,7 +333,7 @@ public class Register extends javax.swing.JFrame {
     private void btnSendCodeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSendCodeActionPerformed
         String code = RandomStringUtils.randomAlphanumeric(6);
         String emailTo = txtEmail.getText().trim();
-        if(MailUtilities.sendEmail(emailTo,code))
+        if(MailUtilities.sendEmail(emailTo,"Yêu cầu đăng ký tài khoản","Mã đăng ký: " ,code))
             JOptionPane.showMessageDialog(this, Constraints.SEND_VERIFICATION_CODE_SUCCESS,Constraints.VERIFY,JOptionPane.INFORMATION_MESSAGE);
         else
             JOptionPane.showMessageDialog(this, Constraints.SEND_VERIFICATION_CODE_FAIL,Constraints.VERIFY,JOptionPane.ERROR_MESSAGE);

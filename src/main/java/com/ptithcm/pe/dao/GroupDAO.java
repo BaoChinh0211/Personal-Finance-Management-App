@@ -4,6 +4,7 @@
  */
 package com.ptithcm.pe.dao;
 
+import com.ptithcm.pe.PersonalFinanceManagement;
 import com.ptithcm.pe.database.DatabaseHelper;
 import com.ptithcm.pe.model.Group;
 import java.sql.Connection;
@@ -45,7 +46,7 @@ public class GroupDAO implements DAO<Group> {
                 System.out.println("Có " + result + " dòng bị thay đổi!");
                 //Bước 5: commit
                 con.commit();
-                
+
             } catch (Exception e) {
                 con.rollback();
             } finally {
@@ -77,7 +78,7 @@ public class GroupDAO implements DAO<Group> {
                 System.out.println("Có " + result + " dòng bị thay đổi!");
                 //Bước 5: commit
                 con.commit();
-                
+
             } catch (Exception e) {
                 con.rollback();
             } finally {
@@ -101,15 +102,15 @@ public class GroupDAO implements DAO<Group> {
 
                 PreparedStatement preparedStatement = con.prepareStatement(sql);
                 con.setAutoCommit(false);
-                
-            preparedStatement.setInt(1, t.getGroupId());
+
+                preparedStatement.setInt(1, t.getGroupId());
                 //Bước 3: Thực thi câu lệnh SQL
                 result = preparedStatement.executeUpdate();
                 //Bước 4: Làm việc với kết quả thu được
                 System.out.println("Có " + result + " dòng bị thay đổi!");
                 //Bước 5: commit
                 con.commit();
-                
+
             } catch (Exception e) {
                 con.rollback();
             } finally {
@@ -124,6 +125,7 @@ public class GroupDAO implements DAO<Group> {
 
     @Override
     public ArrayList<Group> selectAll() {
+
         ArrayList<Group> result = new ArrayList<Group>();
         try {
             //Bước 1: Tạo kết nối cơ sở dữ liệu
@@ -131,14 +133,14 @@ public class GroupDAO implements DAO<Group> {
             // Bước 2: Tạo ra đối tượng statement
             Statement statement = con.createStatement();
             //Bước 3: Thực thi câu lệnh SQL
-            String sql = "SELECT * FROM [Group]";
+            int userId = PersonalFinanceManagement.getInstance().getUserId();
+            String sql = "SELECT * FROM [Group] WHERE [UserId] = " + userId + "";
             ResultSet rs = statement.executeQuery(sql);
             //Bước 4: Làm việc với kết quả thu được
             while (rs.next()) {
                 int GroupId = rs.getInt("GroupId");
                 String name = rs.getString("Name");
                 boolean type = rs.getBoolean("Type");
-                int userId = rs.getInt("UserId");
                 Group gr = new Group(GroupId, name, type, userId);
                 result.add(gr);
             }
@@ -178,13 +180,14 @@ public class GroupDAO implements DAO<Group> {
         return group;
     }
 
-    public ArrayList<Group> selectbyType(boolean type, int userId) {
+    public ArrayList<Group> selectbyType(boolean type) {
         ArrayList<Group> listGroup = new ArrayList<>();
         try {
             //Bước 1: Tạo kết nối cơ sở dữ liệu
             Connection con = DatabaseHelper.openConnection();
             // Bước 2: Tạo ra đối tượng statement
-            String sql = "SELECT * FROM [Group] WHERE [Type] = ? AND userId = ?";
+            String sql = "SELECT * FROM [Group] WHERE [Type] = ? AND [UserId] = ?";
+            int userId = PersonalFinanceManagement.getInstance().getUserId();
             PreparedStatement preparedStatement = con.prepareStatement(sql);
             preparedStatement.setBoolean(1, type);
             preparedStatement.setInt(2, userId);
@@ -203,5 +206,35 @@ public class GroupDAO implements DAO<Group> {
             Logger.getLogger(GroupDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return listGroup;
+    }
+
+    public ArrayList<Group> searchByName(boolean type, String text) {
+        ArrayList<Group> listGroup = new ArrayList<>();
+        try {
+            //Bước 1: Tạo kết nối cơ sở dữ liệu
+            Connection con = DatabaseHelper.openConnection();
+            // Bước 2: Tạo ra đối tượng statement
+            String sql = "SELECT * FROM [Group] WHERE [Type] = ? AND [UserId] = ? AND [Name] LIKE ?";
+            int userId = PersonalFinanceManagement.getInstance().getUserId();
+            PreparedStatement preparedStatement = con.prepareStatement(sql);
+            preparedStatement.setBoolean(1, type);
+            preparedStatement.setInt(2, userId);
+            preparedStatement.setString(3, text);
+            //Bước 3: Thực thi câu lệnh SQL           
+            ResultSet rs = preparedStatement.executeQuery();
+            //Bước 4: Làm việc với kết quả thu được
+            while (rs.next()) {
+                int GroupId = rs.getInt("GroupId");
+                String nameGr = rs.getString("Name");
+                Group group = new Group(GroupId, nameGr, type, userId);
+                listGroup.add(group);
+            }
+            //Bước 5: Ngắt kết nối
+            DatabaseHelper.closeConnection(con);
+        } catch (SQLException ex) {
+            Logger.getLogger(GroupDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return listGroup;
+
     }
 }
