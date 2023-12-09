@@ -12,6 +12,6 @@ import com.ptithcm.pe.utilities.PasswordUtilities;
  */
 public class TestHashingPassword {
     public static void main(String[] args) {
-        System.out.println(PasswordUtilities.toSha1("123456"));
+        System.out.println(PasswordUtilities.toSha1("Chinh$0211"));
     }
 }

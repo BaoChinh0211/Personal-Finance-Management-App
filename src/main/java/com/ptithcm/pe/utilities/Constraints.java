@@ -1,105 +1,118 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.ptithcm.pe.utilities;
 
-/**
- *
- * @author tezca
- */
 public class Constraints {
 
-    public static final String NOTIFY = "Thông báo";
-    public static final String LOGIN = "Đăng nhập";
-    public static final String REGISTER = "Đăng ký";
-    public static final String FORGOT_PASSWORD = "Quên mật khẩu";
-    public static final String CHANGE_PASSWORD = "Thay đổi mật khẩu";
-    public static final String VERIFY = "Xác thực";
-    public static final String CONFIRM = "Xác nhận";
-    public static final String CONFIRM_DELETE = "Xác nhận xóa";
-    public static final String ERROR = "Lỗi";
-    public static final String NOTIFY_SEND_VERIFICATION_CODE_BEFORE = "Vui lòng chọn Gửi mã để nhận được mã xác thực";
-    public static final String NOTIFY_SEND_VERIFICATION_CODE_ALTER = "Vui lòng kiểm tra trong email bạn đã chọn để nhận mã xác thực";
-    public static final String MY_PROFILE = "Thông tin cá nhân";
-    /* Tabbed Pane */
-    public static final String TITLE_ADD_NEW_EXPENDITURE_TYPE = "Thêm danh mục chi tiêu mới";
-    public static final String TITLE_UPDATE_EXPENDITURE_TYPE = "Sửa danh mục chi tiêu";
-    public static final String TITLE_LIST_EXPENDITURE_TYPE = "Danh mục chi tiêu";
-    public static final String TITLE_ADD_NEW_EXPENDITURE = "Thêm chi tiêu mới";
-    public static final String TITLE_UPDATE_EXPENDITURE = "Sưa chi tiết chi tiêu";
-    public static final String TITLE_LIST_EXPENDITURE = "Danh sách chi tiêu";
-    public static final String TITLE_ADD_NEW_RECEIPT_TYPE = "Thêm danh mục thu nhập mới";
-    public static final String TITLE_UPDATE_RECEIPT_TYPE = "Thêm danh mục thu nhập mới";
-    public static final String TITLE_LIST_RECEIPT_TYPE = "Danh mục thu nhập";
-    public static final String TITLE_ADD_NEW_RECEIPT = "Thêm thu nhập mới";
-    public static final String TITLE_UPDATE_RECEIPT = "Sửa chi tiết thu nhập";
-    public static final String TITLE_LIST_RECEIPT = "Danh sách thu nhập";
-    public static final String TITLE_MAIN = "Quản lý chi tiêu cá nhân";
-    public static final String STATISTICS = "Thống kê";
-    public static final String CLOSE_WINDOWS = "Đóng cửa sổ";
+    /* List Label*/
+    public static final String
+            LABEL_INFORMATION = "Thông tin",
+            LABEL_CONFIRM = "Xác nhận",
+            LABEL_ERROR = "Lỗi";
+    
+    /* Title */
+    public static final String           
+            TITLE_MAIN = "Quản lý chi tiêu cá nhân",
+            TITLE_MY_INFORMATION = "Thông tin cá nhân",
+            TITLE_STATISTICS = "Thống kê",
+            TITLE_CLOSE_WINDOWS = "Đóng cửa sổ",
+            TITLE_LOGIN = "Đăng nhập",
+            TITLE_REGISTER = "Đăng ký",
+            TITLE_LOGOUT = "Đăng xuất",
+            TITLE_EXIT = "Thoát",
+            TITLE_FORGOT_PASSWORD = "Quên mật khẩu",
+            TITLE_CHANGE_PASSWORD = "Thay đổi mật khẩu",
+            TITLE_ADD_AN_EXPENSE_CATEGOTY = "Thêm phân loại chi tiêu.",
+            TITLE_ADD_AN_INCOME_CATEGOTY = "Thêm phân loại thu nhập",
+            TITLE_UPDATE_AN_EXPENSE_CATEGORY = "Sửa phân loại chi tiêu",
+            TITLE_UPDATE_AN_INCOME_CATEGORY = "Sửa phân loại thu nhập",          
+            TITLE_LIST_EXPENSE_CATEGORIES = "Danh sách phân loại chi tiêu",
+            TITLE_LIST_INCOME_CATEGORIES = "Danh sách phân loại thu nhập",
+            TITLE_LIST_OF_EXPENSES = "Danh sách chi tiêu",
+            TITLE_LIST_OF_INCOMES = "Danh sách thu nhập";
+    
+    /* Message*/
+    public static final String
+            MESSAGE_SEND_CONFIRMATION_CODE_BEFORE = "Vui lòng chọn Gửi mã để nhận mã xác thực.",
+            MESSAGE_SEND_CONFIRMATION_CODE_ALTER = "Vui lòng kiểm tra email bạn đăng ký để nhận mã xác thực",
+            MESSAGE_CONFRIM_EXIT = "Bạn chắc chắn muốn thoát?";
 
     /* LOGIN */
-    public static final String USERNAME_IS_EMPTY = "Vui lòng không để trống tên tài khoản";
-    public static final String PASSWORD_IS_EMPTY = "Vui lòng không để trống mật khẩu";
-    public static final String USER_NOT_EXIST = "Người dùng không tồn tại";
-    public static final String PASSWORD_IS_INCORRECT = "Mật khẩu không chính xác, vui lòng kiểm tra lại";
-    public static final String LOGIN_ERROR = "Lỗi đăng nhập";
-    public static final String LOGIN_SUCCESS = "Đăng nhập thành công!";
+    public static final String
+            LOGIN_USERNAME_EMPTY = "Vui lòng nhập tên đăng nhập.",
+            LOGIN_PASSWORD_EMPTY = "Vui lòng không để trống mật khẩu.",
+            LOGIN_USERNAME_NOT_FOUND = "Người dùng không tồn tại.",
+            LOGIN_PASSWORD_INCORRECT = "Mật khẩu không chính xác, vui lòng kiểm tra lại.",
+            LOGIN_ERROR = "Đăng nhập thất bại, vui lòng thử lại.",
+            LOGIN_SUCCESS = "Đăng nhập thành công!";
 
     /* REGISTER */
-    public static final String CONFIRM_PASSWORD_IS_EMPTY = "Vui lòng không để trống xác nhận mật khẩu!";
-    public static final String CONFIRM_PASSWORD_IS_INCORRECT = "Xác nhận mật khẩu không chính xác, vui lòng kiểm tra lại!";
-    public static final String NAME_IS_EMPTY = "Vui lòng không để trống tên!";
-    public static final String NAME_IS_INVALID = "Vui lòng nhập họ và tên chỉ bao gồm các chữ cái, không chứa số và kí tự đặc biệt";
-    public static final String USERNAME_IS_SHORT = "Vui lòng nhập tên tài khoản nằm trong khoảng độ dài giữa 6 và 20";
-    public static final String USERNAME_IS_INVALID = "Vui lòng nhập tên tài khoản chỉ bao gồm các chữ cái, số, dấu gạch dưới";  
-    public static final String USERNAME_IS_EXITS = "Tên tài khoản đã tồn tại, vui lòng thử tên khác";
-    public static final String PASSWORD_IS_SHORRT = "Vui lòng nhập mật khẩu nằm trong khoảng độ dài giữa 6 và 20";
-    public static final String PASSWORD_IS_INVALID = "Vui lòng nhập mật khẩu bao gồm ít nhất 1 kí tự thường, 1 kí tự in hoa và 1 kí tự đặc biệt";
-    public static final String EMAIL_IS_EMPTY = "Vui lòng không để trống Email!"; 
-    public static final String EMAIL_IS_SHORT = "Vui lòng nhập tên người dùng nằm trong khoảng độ dài giữa 6 và 30";    
-    public static final String EMAIL_IS_LONG = "Vui lòng nhập địa chỉ email tối đa 255 kí tự";
-    public static final String EMAIL_IS_INVALID = """
-            Vui lòng nhập email đúng định dạng:
-            \t - Tên người dùng chỉ bao gồm các kí tự chữ cái, số và dấu chấm.
-            \t - Tên người dùng không chứa 2 dấu chấm liên tiếp.
-            \t - Tên người dùng không bắt đầu và kết thúc bằng dấu chấm.""";
-    public static final String VERIFICATION_CODE_IS_EMPTY = "Vui lòng nhập mã xác nhận";
-    public static final String VERIFICATION_CODE_IS_INVALID = "Mã xác nhận không chính xác, vui lòng thử lại";
-    public static final String SEND_VERIFICATION_CODE_SUCCESS = "Gửi mã xác nhận thành công";
-    public static final String SEND_VERIFICATION_CODE_FAIL = "Gửi mã xác nhận thất bại, vui lòng thử lại";
+    public static final String
+            REGISTER_NAME_EMPTY = "Vui lòng nhập họ và tên của bạn.",
+            REGISTER_NAME_INVALID = "Vui lòng nhập họ và tên chỉ bao gồm chữ cái, không chứa số và các ký tự đặc biệt.",
+            REGISTER_USERNAME_EMPTY = "Vui lòng nhập tên tài khoản.",
+            REGISTER_USERNAME_SHORT = "Vui lòng nhập tên tài khoản trong khoảng độ dài từ 6 đến 20",
+            REGISTER_USERNAME_INVALID = "Vui lòng nhập tên tài khoản chỉ bao gồm chữ cái, số, dấu gạch dưới",
+            REGISTER_USERNAME_DUPLICATE = "Tên tài khoản này đã tồn tại, vui lòng chọn một tên khác.",
+            REGISTER_PASSWORD_EMPTY = "Vui lòng nhập mật khẩu.",
+            REGISTER_PASSWORD_SHORT = "Vui lòng nhập mật khẩu trong khoảng độ dài từ 6 đến 20.",
+            REGISTER_PASSWORD_INVALID = "Vui lòng nhập mật khẩu bao gồm ít nhất 1 kí tự thường, 1 kí tự in hoa và 1 kí tự đặc biệt.",
+            REGISTER_CONFIRM_PASSWORD_EMPTY = "Vui lòng không để trống xác nhận mật khẩu.",
+            REGISTER_CONFIRM_PASSWORD_MISMATCH = "Xác nhận mật khẩu không chính xác, vui lòng kiểm tra lại.",
+            REGISTER_EMAIL_EMPTY = "Vui lòng không để trống địa chỉ email.",
+            REGISTER_EMAIL_SHORT = "Vui lòng nhập địa chỉ email trong khoảng độ dài từ 6 đến 30.",
+            REGISTER_EMAIL_LONG = "Vui lòng nhập địa chỉ email tối đa 255 kí tự.",
+            REGISTER_EMAIL_INVALID = "Vui lòng nhập email đúng định dạng.",
+            REGISTER_CONFIRMATION_CODE_EMPTY = "Vui lòng không để trống mã xác nhận.",
+            REGISTER_CONFIRMATION_CODE_MISMATCH = "Mã xác nhận không chính xác, vui lòng thử lại.",
+            REGISTER_SEND_CONFIRMATION_CODE_SUCCESS = "Mã xác nhận đã được gửi thành công, vui lòng kiểm tra hộp thư email của bạn.",
+            REGISTER_SEND_CONFIRMATION_CODE_FAIL = "Gửi mã xác nhận thất bại, vui lòng thử lại sau.",
+            REGISTER_SUCCESS = "Đăng ký thành công",
+            REGISTER_ERROR = "Đăng ký thất bại, vui lòng thử lại.";
 
-    public static final String REGISTER_ERROR = "Lỗi đăng ký tài khoản";
-    public static final String REGISTER_SUCCESS = "Đăng ký tài khoản thành công";
 
     /* FORGOT PASSWORD */
-    public static final String USERNAME_IS_NOT_EXITS = "Tên tài khoản không tồn tại trên hệ thống, vui lòng thử tên khác";
-    public static final String EMAIL_IS_INVALID2 = "Vui lòng nhập email đúng định dạng";
-    public static final String EMAIL_IS_NOT_EXITS = "Email không trùng với email đăng ký, vui lòng kiếm tra lại";
-    public static final String SET_NEW_PASSWORD_SUCCESS = "Thay đổi mật khẩu thành công";
-    public static final String SET_NEW_PASSWORD_ERROR = "Lỗi thay đổi mật khẩu";
+    public static final String
+            FGP_USERNAME_EMPTY = "Tên tài khoản không tồn tại trên hệ thống, vui lòng thử tên khác",
+            FGP_USERNAME_NOT_EXISTS = "Tên tài khoản không tồn tại trong hệ thống, vui lòng kiểm tra lại hoặc sử dụng tên khác.",
+            FGP_EMAIL_EMPTY = "Vui lòng nhập email bạn đã đăng ký",
+            FGP_EMAIL_INVALID = "Vui lòng nhập email đúng định dạng",
+            FGP_EMAIL_NOT_DUPLICATE = "Email không khớp với địa chỉ đã đăng ký, vui lòng kiểm tra lại.";
 
     /* CHANGE PASSWORD*/
-    public static final String NEW_PASSWORD_IS_DUPLICATED = "Mật khẩu mới không được trùng với mật khẩu cũ, vui lòng đổi một mật khẩu khác";
+    public static final String
+            CP_PASSWORD_EMPTY = "Vui lòng nhập mật khẩu mới.",
+            CP_PASSWORD_IS_DUPLICATED = "Mật khẩu mới trùng với mật khẩu cũ, vui lòng chọn một mật khẩu khác.",
+            CP_PASSWORD_SHORT = "Vui lòng nhập mật khẩu mới trong khoảng độ dài từ 6 đến 20.",
+            CP_PASSWORD_INVALID = "Vui lòng nhập mật khẩu mới bao gồm ít nhất 1 kí tự thường, 1 kí tự in hoa và 1 kí tự đặc biệt.",
+            CP_CONFIRM_PASSWORD_EMPTY = "Vui lòng không để trống xác nhận mật khẩu.",
+            CP_CONFIRM_PASSWORD_MISMATCH = "Vui lòng không để trống xác nhận mật khẩu.",
+            CP_CONFIRMATION_CODE_EMPTY = "Vui lòng không để trống xác nhận mật khẩu.",
+            CP_CONFIRMATION_CODE_MISMATCH = "Vui lòng không để trống xác nhận mật khẩu.",
+            CP_SEND_CONFIRMATION_CODE_SUCCESS = "Mã xác nhận đã được gửi thành công, vui lòng kiểm tra hộp thư email của bạn.",
+            CP_SEND_CONFIRMATION_CODE_FAIL = "Gửi mã xác nhận thất bại, vui lòng thử lại sau.",
+            CP_CHANGE_PASSWORD_SUCCESS = "Thay đổi mật khẩu thành công",
+            CP_CHANGE_PASSWORD_ERROR = "Lỗi thay đổi mật khẩu, vui lòng thử lại";
 
-    /* Thêm mới một Group*/
-    public static final String NAME_GROUP_IS_EMPTY = "Tên phân loại không được để trống";
-    public static final String NAME_GROUP_IS_INVALID = "Tên phân loại không hợp lệ, vui lòng thử lại";
-    public static final String ADD_NEW_GROUP_ERROR = "Thêm phân loại mới thất bại";
-    public static final String ADD_NEW_GROUP_SUCCESS = "Thêm phân loại mới thành công";
+    /* ------------------- CATEGORY ----------------------------- */
+    public static final String
+            CATEGORY_CONFIRM_DELETE_AN_EXPENSE = "Bạn chắc chắn muốn xóa phân loại chi tiêu này?",
+            CATEGORY_CONFIRM_DELETE_AN_INCOME = "Bạn chắc chắn muốn xóa phân loại thu nhập này?",
+            CATEGORY_NAME_EMPTY = "Vui lòng nhập tên phân loại.",
+            CATEGORY_NAME_INVALID = "Tên phân loại không hợp lệ, vui lòng thử lại.",
+            CATEGORY_ADD_SUCCESS = "Thêm phân loại mới thành công.",
+            CATEGORY_ADD_FAIL = "Thêm phân loại mới thất bại, vui lòng thử lại.",
+            CATEGORY_UPDATE_SUCCESS = "Cập nhật phân loại thành công.",
+            CATEGORY_UPDATE_FAIL = "Cập nhật phân loại thất bại, vui lòng thử lại.",
+            CATEGORY_DELETE_SUCCESS = "Xóa phân loại thành công.",
+            CATEGORY_DELETE_FAIL = "Xóa phân loại thất bại, vui lòng thử lại.";
 
-    public static final String ADD_GROUP_ERROR = "Lỗi thêm phân loại mới";
-    
-    /* Cập nhật một Group*/
-    public static final String UPDTA_GROUP = "Cập nhật thông tin phân loại";
-    public static final String UPDATE_GROUP_SUCCESS = "Cập nhật thông tin phân loại mới thành công";
-    public static final String UPDATE_GROUP_FAILD = "Cập nhật thông tin phân loại mới thất bại, vui lòng thử lại";
+    /* Expense */
+    public static final String
+            ADD_AN_EXPENSE = "Thêm chi tiêu mới",
+            UPDATE_AN_EXPENSE = "Sửa chi tiết chi tiêu";
 
-    /* Xóa một Group */
-    public static final String DELETE_GROUP = "Xóa phân loại chi tiêu";
-    public static final String DELETE_GROUP_SUCCESS = "Xóa phân loại thành công";
-    public static final String DELETE_GROUP_FAILD = "Xóa phân loại thất bại";
-    public static final String DELETE_GROUP_CONFIRM = "Bạn chắc chắn muốn xóa phân loại này?";
+    /* Income*/
+    public static final String
+            ADD_AN_INCOME = "Thêm thu nhập mới",
+            UPDATE_AN_INCOME = "Sửa chi tiết thu nhập";
 
 }

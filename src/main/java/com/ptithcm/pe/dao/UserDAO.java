@@ -34,7 +34,7 @@ public class UserDAO implements DAO<User> {
                 Connection con = DatabaseHelper.openConnection();) {
             try {
                 // Bước 2: Tạo ra đối tượng statement
-                String sql = "INSERT INTO [User]([Name], [UserName], [Password], Email) VALUES(?, ?, ?, ?)";
+                String sql = "INSERT INTO [User](FullName, Username, [Password], Email) VALUES(?, ?, ?, ?)";
 
                 PreparedStatement ps = con.prepareStatement(sql);
                 con.setAutoCommit(false);
@@ -67,14 +67,14 @@ public class UserDAO implements DAO<User> {
                 Connection con = DatabaseHelper.openConnection();) {
             try {
                 // Bước 2: Tạo ra đối tượng statement
-                String sql = "UPDATE [User] SET [Name] = ?, [Password] = ?, [Email] = ? WHERE UserId = ?";
-
+                String sql = "UPDATE [User] SET FullName = ?, Username = ?, Password = ?,  Email = ? WHERE UserId = ?";
                 PreparedStatement ps = con.prepareStatement(sql);
                 con.setAutoCommit(false);
-                ps.setInt(4, t.getId());
+                ps.setInt(5, t.getId());
                 ps.setString(1, t.getName());
-                ps.setString(2, t.getPassword());
-                ps.setString(3, t.getEmail());
+                ps.setString(2, t.getUserName());
+                ps.setString(3, t.getPassword());
+                ps.setString(4, t.getEmail());
                 //Bước 3: Thực thi câu lệnh SQL
                 result = ps.executeUpdate();
                 //Bước 4: Làm việc với kết quả thu được
@@ -100,7 +100,7 @@ public class UserDAO implements DAO<User> {
                 Connection con = DatabaseHelper.openConnection();) {
             try {
                 // Bước 2: Tạo ra đối tượng statement
-                String sql = "DELETE FROM [User] WHERE [UserId] = ?";
+                String sql = "DELETE FROM [User] WHERE UserId = ?";
                 PreparedStatement ps = con.prepareStatement(sql);
                 con.setAutoCommit(false);
                 ps.setInt(1, t.getId());
@@ -136,8 +136,8 @@ public class UserDAO implements DAO<User> {
             //Bước 4: Làm việc với kết quả thu được
             while (rs.next()) {
                 int userId = rs.getInt("UserId");
-                String name = rs.getString("Name");
-                String username = rs.getString("UserName");
+                String name = rs.getString("Fullname");
+                String username = rs.getString("Username");
                 String password = rs.getString("Password");
                 String email = rs.getString("Email");
 
@@ -147,35 +147,35 @@ public class UserDAO implements DAO<User> {
             //Bước 5: Ngắt kết nối
             DatabaseHelper.closeConnection(con);
         } catch (SQLException ex) {
-            Logger.getLogger(GroupDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return result;
     }
 
     @Override
-    public User selectByName(String name) {
+    public User selectByName(String fullName) {
         User user = null;
         try {
             //Bước 1: Tạo kết nối cơ sở dữ liệu
             Connection con = DatabaseHelper.openConnection();
             // Bước 2: Tạo ra đối tượng statement
-            String sql = "SELECT * FROM [Group] WHERE [Name] = ?";
-            PreparedStatement preparedStatement = con.prepareStatement(sql);
-            preparedStatement.setString(1, name);
+            String sql = "SELECT * FROM [User] WHERE [FullName] = ?";
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, fullName);
             //Bước 3: Thực thi câu lệnh SQL           
-            ResultSet rs = preparedStatement.executeQuery();
+            ResultSet rs = ps.executeQuery();
             //Bước 4: Làm việc với kết quả thu được
             while (rs.next()) {
                 int userId = rs.getInt("UserId");
-                String username = rs.getString("UserName");
+                String username = rs.getString("Username");
                 String password = rs.getString("Password");
                 String email = rs.getString("Email");
-                user = new User(userId, name, username, password, email);
+                user = new User(userId, fullName, username, password, email);
             }
             //Bước 5: Ngắt kết nối
             DatabaseHelper.closeConnection(con);
         } catch (SQLException ex) {
-            Logger.getLogger(GroupDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return user;
     }
@@ -186,7 +186,7 @@ public class UserDAO implements DAO<User> {
             //Bước 1: Tạo kết nối cơ sở dữ liệu
             Connection con = DatabaseHelper.openConnection();
             // Bước 2: Tạo ra đối tượng statement
-            String sql = "SELECT * FROM [User] WHERE [UserName] = ?";
+            String sql = "SELECT * FROM [User] WHERE [Username] = ?";
             PreparedStatement preparedStatement = con.prepareStatement(sql);
             preparedStatement.setString(1, username);
             //Bước 3: Thực thi câu lệnh SQL           
@@ -194,7 +194,7 @@ public class UserDAO implements DAO<User> {
             //Bước 4: Làm việc với kết quả thu được
             while (rs.next()) {
                 int userId = rs.getInt("UserId");
-                String name = rs.getString("Name");
+                String name = rs.getString("Username");
                 String password = rs.getString("Password");
                 String email = rs.getString("Email");
                 user = new User(userId, name, username, password, email);
@@ -202,7 +202,7 @@ public class UserDAO implements DAO<User> {
             //Bước 5: Ngắt kết nối
             DatabaseHelper.closeConnection(con);
         } catch (SQLException ex) {
-            Logger.getLogger(GroupDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return user;
     }

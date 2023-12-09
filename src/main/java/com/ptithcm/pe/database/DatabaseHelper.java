@@ -23,7 +23,7 @@ public class DatabaseHelper {
         Connection connection = null;
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            String url = "jdbc:sqlserver://MSI\\BAOCHINH:1433;DatabaseName=PersonalExpenseManagement;encrypt=true;trustServerCertificate=true;";
+            String url = "jdbc:sqlserver://MSI\\BAOCHINH:1433;DatabaseName=PersonalFinanceManagement;encrypt=true;trustServerCertificate=true;";
             String username = "sa";
             String password = "123456";
             connection = DriverManager.getConnection(url, username, password);
