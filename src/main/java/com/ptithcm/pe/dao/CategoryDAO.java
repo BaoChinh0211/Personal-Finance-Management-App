@@ -43,7 +43,7 @@ public class CategoryDAO implements DAO<Category> {
                 //Bước 3: Thực thi câu lệnh SQL
                 result = ps.executeUpdate();
                 //Bước 4: Làm việc với kết quả thu được
-                System.out.println("Có " + result + " dòng bị thay đổi!");
+                System.out.println(result + " line has been changed.");
                 //Bước 5: commit
                 con.commit();
             } catch (Exception e) {
@@ -74,7 +74,7 @@ public class CategoryDAO implements DAO<Category> {
                 //Bước 3: Thực thi câu lệnh SQL
                 result = ps.executeUpdate();
                 //Bước 4: Làm việc với kết quả thu được
-                System.out.println("Có " + result + " dòng bị thay đổi!");
+                System.out.println(result + " line has been changed.");
                 //Bước 5: commit
                 con.commit();
 
@@ -106,7 +106,7 @@ public class CategoryDAO implements DAO<Category> {
                 //Bước 3: Thực thi câu lệnh SQL
                 result = preparedStatement.executeUpdate();
                 //Bước 4: Làm việc với kết quả thu được
-                System.out.println("Có " + result + " dòng bị thay đổi!");
+                System.out.println(result + " line has been changed.");
                 //Bước 5: commit
                 con.commit();
 
@@ -207,6 +207,8 @@ public class CategoryDAO implements DAO<Category> {
         }
         return listCategory;
     }
+    
+    
 
     public ArrayList<Category> searchByName(boolean type, String text) {
         ArrayList<Category> listCategory = new ArrayList<>();
@@ -236,5 +238,33 @@ public class CategoryDAO implements DAO<Category> {
         }
         return listCategory;
 
+    }
+
+    @Override
+    public Category selectById(int id) {
+        Category category = null;
+        try {
+            //Bước 1: Tạo kết nối cơ sở dữ liệu
+            Connection con = DatabaseHelper.openConnection();
+            // Bước 2: Tạo ra đối tượng statement
+            String sql = "SELECT * FROM dbo.Category WHERE CategoryId = ?";
+            int userId = PersonalFinanceManagement.getInstance().getUserId();
+            PreparedStatement preparedStatement = con.prepareStatement(sql);
+            preparedStatement.setInt(1, id);
+            //Bước 3: Thực thi câu lệnh SQL
+            ResultSet rs = preparedStatement.executeQuery();
+            //Bước 4: Làm việc với kết quả thu được
+            while (rs.next()) {
+                int CategoryId = rs.getInt("CategoryId");
+                String cateName = rs.getString("CategoryName");
+                boolean type = rs.getBoolean("CategoryType");
+                category = new Category(CategoryId, cateName, type, userId);
+            }
+            //Bước 5: Ngắt kết nối
+            DatabaseHelper.closeConnection(con);
+        } catch (SQLException ex) {
+            Logger.getLogger(CategoryDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return category;
     }
 }

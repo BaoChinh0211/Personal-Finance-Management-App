@@ -8,7 +8,7 @@ import com.ptithcm.pe.dao.UserDAO;
 import com.ptithcm.pe.model.User;
 import com.ptithcm.pe.utilities.ValidationUtilities;
 import com.ptithcm.pe.utilities.Constraints;
-import com.ptithcm.pe.utilities.MailUtilities;
+import com.ptithcm.pe.utilities.MailerUtilities;
 import com.ptithcm.pe.utilities.PasswordUtilities;
 import org.apache.commons.lang3.RandomStringUtils;
 
@@ -315,7 +315,7 @@ public class Register extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, Constraints.REGISTER_EMAIL_LONG, Constraints.LABEL_ERROR, JOptionPane.ERROR_MESSAGE);
         } else if (ValidationUtilities.checkEmailValid(email) == 2) {
             JOptionPane.showMessageDialog(this, Constraints.REGISTER_EMAIL_INVALID, Constraints.LABEL_ERROR, JOptionPane.ERROR_MESSAGE);
-        } else if (!code.equals(MailUtilities.getCode())) {
+        } else if (!code.equals(MailerUtilities.getCode())) {
             JOptionPane.showMessageDialog(this, Constraints.REGISTER_CONFIRMATION_CODE_MISMATCH, Constraints.LABEL_ERROR, JOptionPane.ERROR_MESSAGE);
         } else {
             if (JOptionPane.showConfirmDialog(this, "Bạn chắc chắn muốn đăng ký", "Xác nhận", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
@@ -338,7 +338,7 @@ public class Register extends javax.swing.JFrame {
     private void btnSendCodeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSendCodeActionPerformed
         String code = RandomStringUtils.randomAlphanumeric(6);
         String emailTo = txtEmail.getText().trim();
-        if(MailUtilities.sendEmail(emailTo,"Yêu cầu đăng ký tài khoản","Mã đăng ký: " ,code))
+        if(MailerUtilities.sendEmail(emailTo,"Yêu cầu đăng ký tài khoản","Mã đăng ký: " ,code))
             JOptionPane.showMessageDialog(this, Constraints.REGISTER_SEND_CONFIRMATION_CODE_SUCCESS,Constraints.LABEL_INFORMATION,JOptionPane.INFORMATION_MESSAGE);
         else
             JOptionPane.showMessageDialog(this, Constraints.REGISTER_SEND_CONFIRMATION_CODE_FAIL,Constraints.LABEL_ERROR,JOptionPane.ERROR_MESSAGE);

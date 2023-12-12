@@ -45,7 +45,7 @@ public class UserDAO implements DAO<User> {
                 //Bước 3: Thực thi câu lệnh SQL
                 result = ps.executeUpdate();
                 //Bước 4: Làm việc với kết quả thu được
-                System.out.println("Có " + result + " dòng bị thay đổi!");
+                System.out.println(result + " line has been changed.");
                 //Bước 5: commit
                 con.commit();
             } catch (Exception e) {
@@ -78,7 +78,7 @@ public class UserDAO implements DAO<User> {
                 //Bước 3: Thực thi câu lệnh SQL
                 result = ps.executeUpdate();
                 //Bước 4: Làm việc với kết quả thu được
-                System.out.println("Có " + result + " dòng bị thay đổi!");
+                System.out.println(result + " line has been changed.");
                 //Bước 5: commit
                 con.commit();
             } catch (Exception e) {
@@ -107,7 +107,7 @@ public class UserDAO implements DAO<User> {
                 //Bước 3: Thực thi câu lệnh SQL
                 result = ps.executeUpdate();
                 //Bước 4: Làm việc với kết quả thu được
-                System.out.println("Có " + result + " dòng bị thay đổi!");
+                System.out.println(result + " line has been changed.");
                 //Bước 5: commit
                 con.commit();
             } catch (Exception e) {
@@ -219,5 +219,10 @@ public class UserDAO implements DAO<User> {
         }
         PersonalFinanceManagement.getInstance().setUserId(user.getId());
         return 0;
+    }
+
+    @Override
+    public User selectById(int id) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }

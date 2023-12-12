@@ -26,7 +26,7 @@ public class ValidationUtilities {
     }
     
     public static boolean checkPasswordValid(String password){
-        String regex = "((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%!]).{8,20})";
+        String regex = "((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%!]).{6,20})";
         return password.matches(regex);
     }
     

@@ -7,7 +7,7 @@ package com.ptithcm.pe.views.login;
 import com.ptithcm.pe.dao.UserDAO;
 import com.ptithcm.pe.model.User;
 import com.ptithcm.pe.utilities.Constraints;
-import com.ptithcm.pe.utilities.MailUtilities;
+import com.ptithcm.pe.utilities.MailerUtilities;
 
 import javax.swing.JOptionPane;
 
@@ -62,6 +62,7 @@ public class SetNewPassword extends javax.swing.JFrame {
         btnCancel = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle(Constraints.TITLE_CHANGE_PASSWORD);
 
         lblTitle.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         lblTitle.setForeground(new java.awt.Color(0, 0, 153));
@@ -195,7 +196,7 @@ public class SetNewPassword extends javax.swing.JFrame {
 
     private void btnSendVerCodeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSendVerCodeActionPerformed
         String code = RandomStringUtils.randomAlphanumeric(6);
-        if (MailUtilities.sendEmail(emailTo, "Yêu cầu thay đổi mật khẩu", "Mã đặt lại mật khẩu: ", code)) {
+        if (MailerUtilities.sendEmail(emailTo, "Yêu cầu thay đổi mật khẩu", "Mã đặt lại mật khẩu: ", code)) {
             JOptionPane.showMessageDialog(this, Constraints.CP_SEND_CONFIRMATION_CODE_SUCCESS, Constraints.LABEL_INFORMATION, JOptionPane.INFORMATION_MESSAGE);
             lblMessage.setText(Constraints.MESSAGE_SEND_CONFIRMATION_CODE_ALTER);
         } else
@@ -221,7 +222,7 @@ public class SetNewPassword extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, Constraints.CP_CONFIRM_PASSWORD_MISMATCH, Constraints.LABEL_ERROR, JOptionPane.ERROR_MESSAGE);
         } else if (code.isEmpty()) {
             JOptionPane.showMessageDialog(this, Constraints.CP_CONFIRMATION_CODE_EMPTY, Constraints.LABEL_ERROR, JOptionPane.ERROR_MESSAGE);
-        } else if (!code.equals(MailUtilities.getCode())) {
+        } else if (!code.equals(MailerUtilities.getCode())) {
             JOptionPane.showMessageDialog(this, Constraints.CP_CONFIRMATION_CODE_MISMATCH, Constraints.LABEL_ERROR, JOptionPane.ERROR_MESSAGE);
         } else if (oldPassword.equals(newPassword)) {
             JOptionPane.showMessageDialog(this, Constraints.CP_PASSWORD_IS_DUPLICATED, Constraints.LABEL_ERROR, JOptionPane.ERROR_MESSAGE);

@@ -22,4 +22,6 @@ public interface DAO<T> {
     
     public T selectByName(String name);
     
+    public T selectById(int id);
+    
 }

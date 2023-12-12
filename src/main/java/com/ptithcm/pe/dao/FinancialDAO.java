@@ -45,7 +45,7 @@ public class FinancialDAO implements DAO<Financial> {
                 //Bước 3: Thực thi câu lệnh SQL
                 result = ps.executeUpdate();
                 //Bước 4: Làm việc với kết quả thu được
-                System.out.println("Có " + result + " dòng bị thay đổi!");
+                System.out.println(result + " line has been changed.");
                 //Bước 5: commit
                 con.commit();
 
@@ -79,7 +79,7 @@ public class FinancialDAO implements DAO<Financial> {
                 //Bước 3: Thực thi câu lệnh SQL
                 result = pst.executeUpdate();
                 //Bước 4: Làm việc với kết quả thu được
-                System.out.println("Có " + result + " dòng bị thay đổi!");
+                System.out.println(result + " line has been changed.");
                 //Bước 5: commit
                 con.commit();
 
@@ -110,7 +110,7 @@ public class FinancialDAO implements DAO<Financial> {
                 //Bước 3: Thực thi câu lệnh SQL
                 result = pst.executeUpdate();
                 //Bước 4: Làm việc với kết quả thu được
-                System.out.println("Có " + result + " dòng bị thay đổi!");
+                System.out.println(result + " line has been changed.");
                 //Bước 5: commit
                 con.commit();
 
@@ -136,17 +136,16 @@ public class FinancialDAO implements DAO<Financial> {
             Statement statement = con.createStatement();
             //Bước 3: Thực thi câu lệnh SQL
             int userId = PersonalFinanceManagement.getInstance().getUserId();
-//            String sql = "SELECT * FROM dbo.Financial WHERE CategoryId IN (SELECT CategoryId From Category WHERE UserId = "+ userId +")" ;
-            String sql = "SELECT * FROM dbo.Financial WHERE CategoryId IN (SELECT CategoryId From Category WHERE UserId = "+ 2 +")" ;
+            String sql = "SELECT * FROM dbo.Financial WHERE CategoryId IN (SELECT CategoryId From Category WHERE UserId = "+ userId +")" ;
             ResultSet rs = statement.executeQuery(sql);
             //Bước 4: Làm việc với kết quả thu được
             while (rs.next()) {
-                int revenuesId = rs.getInt("FinancialId");
+                int financialId = rs.getInt("FinancialId");
                 int amount = rs.getInt("Amount");
                 Timestamp dateTime = rs.getTimestamp("DateTime");
                 String note = rs.getString("Note");
                 int categoryId = rs.getInt("CategoryId");
-                Financial financial = new Financial(revenuesId, amount, dateTime, note, categoryId);
+                Financial financial = new Financial(financialId, amount, dateTime, note, categoryId);
                 result.add(financial);
             }
             //Bước 5: Ngắt kết nối
@@ -173,12 +172,12 @@ public class FinancialDAO implements DAO<Financial> {
             String query = "SELECT * FROM [Financial] WHERE " + sql + "";
             ResultSet rs = statement.executeQuery(query);
             //Bước 4: Làm việc với kết quả thu được
-            int revenuesId = rs.getInt("FinancialId");
+            int financialId = rs.getInt("FinancialId");
             int amount = rs.getInt("Amount");
             Timestamp dateTime = rs.getTimestamp("DateTime");
             String note = rs.getString("Note");
             int categoryId = rs.getInt("CategoryId");
-            Financial financial = new Financial(revenuesId, amount, dateTime, note, categoryId);
+            Financial financial = new Financial(financialId, amount, dateTime, note, categoryId);
             result.add(financial);
             //Bước 5: Ngắt kết nối
             DatabaseHelper.closeConnection(con);
@@ -188,7 +187,7 @@ public class FinancialDAO implements DAO<Financial> {
         return result;
     }
 
-    public ArrayList<Financial> selectByGroupAndUser(boolean typeCate) {
+    public ArrayList<Financial> selectByGroup(boolean typeCate) {
         ArrayList<Financial> result = new ArrayList<>();
         try {
             //Bước 1: Tạo kết nối cơ sở dữ liệu
@@ -203,18 +202,78 @@ public class FinancialDAO implements DAO<Financial> {
             ResultSet rs = ps.executeQuery();
             //Bước 4: Làm việc với kết quả thu được
             while (rs.next()) {
-                int revenuesId = rs.getInt("FinancialId");
+                int financialId = rs.getInt("FinancialId");
                 int amount = rs.getInt("Amount");
                 Timestamp dateTime = rs.getTimestamp("DateTime");
                 String note = rs.getString("Note");
                 int CategoryId = rs.getInt("CategoryId");
-                Financial revenues = new Financial(revenuesId, amount, dateTime, note, CategoryId);
+                Financial revenues = new Financial(financialId, amount, dateTime, note, CategoryId);
                 result.add(revenues);
             }
             //Bước 5: Ngắt kết nối
             DatabaseHelper.closeConnection(con);
         } catch (SQLException ex) {
-            Logger.getLogger(CategoryDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FinancialDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return result;
+    }
+
+    @Override
+    public Financial selectById(int id) {
+        Financial financial = null;
+        try {
+            //Bước 1: Tạo kết nối cơ sở dữ liệu
+            Connection con = DatabaseHelper.openConnection();
+            // Bước 2: Tạo ra đối tượng statement
+            String sql = "SELECT * FROM dbo.Financial WHERE FinancialId = ?";
+            PreparedStatement preparedStatement = con.prepareStatement(sql);
+            preparedStatement.setInt(1, id);
+            //Bước 3: Thực thi câu lệnh SQL
+            ResultSet rs = preparedStatement.executeQuery();
+            //Bước 4: Làm việc với kết quả thu được
+            while (rs.next()) {
+                
+                financial = new Financial();
+            }
+            //Bước 5: Ngắt kết nối
+            DatabaseHelper.closeConnection(con);
+        } catch (SQLException ex) {
+            Logger.getLogger(FinancialDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return financial;
+    }
+    
+    public ArrayList<Financial> searchByCondidion(String text, Object... search){
+        ArrayList<Financial> result = new ArrayList<>();
+        try {
+            //Bước 1: Tạo kết nối cơ sở dữ liệu
+            Connection con = DatabaseHelper.openConnection();
+            // Bước 2: Tạo ra đối tượng statement
+            String query = "SELECT * FROM Financial " + text;
+            System.out.println(query);
+//            int userId = PersonalFinanceManagement.getInstance().getUserId();
+            PreparedStatement ps = con.prepareStatement(query);
+            for (int i = 0; i < search.length; i++) {
+                ps.setObject(i +1, search[i]);
+            }
+//            ps.setInt(1, userId);
+//            ps.setBoolean(2, type);
+            //Bước 3: Thực thi câu lệnh SQL            
+            ResultSet rs = ps.executeQuery();
+            //Bước 4: Làm việc với kết quả thu được
+            while (rs.next()) {
+                int financialId = rs.getInt("FinancialId");
+                int amount = rs.getInt("Amount");
+                Timestamp dateTime = rs.getTimestamp("DateTime");
+                String note = rs.getString("Note");
+                int CategoryId = rs.getInt("CategoryId");
+                Financial revenues = new Financial(financialId, amount, dateTime, note, CategoryId);
+                result.add(revenues);
+            }
+            //Bước 5: Ngắt kết nối
+            DatabaseHelper.closeConnection(con);
+        } catch (SQLException ex) {
+            Logger.getLogger(FinancialDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return result;
     }

@@ -51,7 +51,6 @@ public class ForgotPassword extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle(Constraints.TITLE_FORGOT_PASSWORD);
-        setPreferredSize(new java.awt.Dimension(600, 350));
 
         lblTitle.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         lblTitle.setForeground(new java.awt.Color(0, 0, 153));

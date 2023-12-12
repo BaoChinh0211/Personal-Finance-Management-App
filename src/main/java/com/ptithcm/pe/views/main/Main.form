@@ -235,7 +235,7 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="jToolBar1" pref="800" max="32767" attributes="0"/>
+          <Component id="jToolBar1" pref="1000" max="32767" attributes="0"/>
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Component id="tabbedPane" max="32767" attributes="0"/>
@@ -248,7 +248,7 @@
           <Group type="102" alignment="0" attributes="0">
               <Component id="jToolBar1" min="-2" pref="62" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Component id="tabbedPane" pref="490" max="32767" attributes="0"/>
+              <Component id="tabbedPane" pref="690" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>

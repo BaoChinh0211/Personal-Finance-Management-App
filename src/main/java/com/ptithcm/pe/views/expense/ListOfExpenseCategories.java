@@ -5,7 +5,6 @@
 package com.ptithcm.pe.views.expense;
 
 //import com.ptithcm.pe.UI.Dialogs.AddNewRevenuesTypeE;
-
 import com.ptithcm.pe.dao.CategoryDAO;
 import com.ptithcm.pe.model.Category;
 import com.ptithcm.pe.utilities.Constraints;
@@ -13,6 +12,7 @@ import com.ptithcm.pe.utilities.cell.TableActionCellEditor;
 import com.ptithcm.pe.utilities.cell.TableActionCellRender;
 import com.ptithcm.pe.utilities.cell.TableActionEvent;
 import com.ptithcm.pe.utilities.search.SearchOption;
+import java.awt.Component;
 
 import java.awt.Frame;
 import java.util.ArrayList;
@@ -21,6 +21,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
 /**
  * @author tezca
@@ -37,7 +38,7 @@ public class ListOfExpenseCategories extends javax.swing.JPanel {
         loadData();
         initTable();
         initSearch();
-
+        showDetails();
     }
 
     /**
@@ -50,7 +51,6 @@ public class ListOfExpenseCategories extends javax.swing.JPanel {
     private void initComponents() {
 
         lblTitle = new javax.swing.JLabel();
-        jSeparator1 = new javax.swing.JSeparator();
         txtSearch = new com.ptithcm.pe.utilities.search.TextFieldSearchOption();
         jScrollPane1 = new javax.swing.JScrollPane();
         table = new javax.swing.JTable();
@@ -58,6 +58,7 @@ public class ListOfExpenseCategories extends javax.swing.JPanel {
         txtName = new javax.swing.JTextField();
         btnAdd = new javax.swing.JButton();
         btnRefresh = new javax.swing.JButton();
+        jSeparator1 = new javax.swing.JSeparator();
 
         setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         setPreferredSize(new java.awt.Dimension(1200, 900));
@@ -66,9 +67,7 @@ public class ListOfExpenseCategories extends javax.swing.JPanel {
         lblTitle.setForeground(new java.awt.Color(0, 0, 204));
         lblTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblTitle.setText(Constraints.TITLE_LIST_EXPENSE_CATEGORIES);
-        lblTitle.setPreferredSize(new java.awt.Dimension(788, 60));
-
-        jSeparator1.setPreferredSize(new java.awt.Dimension(788, 10));
+        lblTitle.setPreferredSize(new java.awt.Dimension(1194, 50));
 
         txtSearch.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         txtSearch.setPreferredSize(new java.awt.Dimension(350, 34));
@@ -98,15 +97,7 @@ public class ListOfExpenseCategories extends javax.swing.JPanel {
         table.setPreferredSize(new java.awt.Dimension(400, 300));
         table.setRowHeight(40);
         table.setSelectionBackground(new java.awt.Color(57, 137, 111));
-        table.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tableMouseClicked(evt);
-            }
-        });
         jScrollPane1.setViewportView(table);
-        if (table.getColumnModel().getColumnCount() > 0) {
-            table.getColumnModel().getColumn(1).setPreferredWidth(75);
-        }
 
         lblName.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         lblName.setText("Tên");
@@ -136,57 +127,57 @@ public class ListOfExpenseCategories extends javax.swing.JPanel {
             }
         });
 
+        jSeparator1.setPreferredSize(new java.awt.Dimension(1194, 10));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jSeparator1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(186, 186, 186)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 558, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(btnRefresh, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(77, 77, 77)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .addComponent(lblTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 292, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
                         .addComponent(lblName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(77, 77, 77))))
+                        .addGap(18, 18, 18)
+                        .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(62, 62, 62)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnRefresh, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(216, 216, 216))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblTitle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(28, 28, 28)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(lblTitle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(113, 113, 113)
+                        .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btnRefresh, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(220, 220, 220)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                            .addComponent(lblName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 333, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnRefresh, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(289, Short.MAX_VALUE))
+                    .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(250, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -208,29 +199,28 @@ public class ListOfExpenseCategories extends javax.swing.JPanel {
     }//GEN-LAST:event_txtSearchKeyReleased
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        AddAnExpenseCategory add = new AddAnExpenseCategory((Frame) SwingUtilities.getWindowAncestor(this), true, this);
-        add.setSize(435, 250);
-        add.setLocationRelativeTo(null);
-        add.setVisible(true);
+        AddEditAnExpenseCategory panel = new AddEditAnExpenseCategory((Frame) SwingUtilities.getWindowAncestor(this), true, this, true);
+        panel.setTitle(Constraints.TITLE_ADD_AN_EXPENSE_CATEGORY);
+        panel.lblTitle.setText(Constraints.TITLE_ADD_AN_EXPENSE_CATEGORY);
+        panel.setSize(435, 250);
+        panel.setLocationRelativeTo(null);
+        panel.setVisible(true);
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
         loadData();
     }//GEN-LAST:event_btnRefreshActionPerformed
 
-    private void tableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableMouseClicked
-        int selectedRow = table.getSelectedRow();
-        displayData(selectedRow);
-
-    }//GEN-LAST:event_tableMouseClicked
-
     private void initTable() {
         TableActionEvent event = new TableActionEvent() {
             @Override
             public void onEdit(int row) {
                 if (row != -1) {
-                    Category group = categories.get(row);
-                    UpdateAnExpenseCategory panel = new UpdateAnExpenseCategory((Frame) SwingUtilities.getWindowAncestor(ListOfExpenseCategories.this), true, ListOfExpenseCategories.this, group);
+                    Category category = categories.get(row);
+                    AddEditAnExpenseCategory panel = new AddEditAnExpenseCategory((Frame) SwingUtilities.getWindowAncestor(ListOfExpenseCategories.this), true, ListOfExpenseCategories.this, category, false);
+                    panel.setTitle(Constraints.TITLE_UPDATE_AN_EXPENSE_CATEGORY);
+                    panel.lblTitle.setText(Constraints.TITLE_UPDATE_AN_EXPENSE_CATEGORY);
+                    panel.txtName.setText(category.getCategoryName());
                     panel.setSize(435, 250);
                     panel.setLocationRelativeTo(null);
                     panel.setVisible(true);
@@ -239,16 +229,19 @@ public class ListOfExpenseCategories extends javax.swing.JPanel {
 
             @Override
             public void onDelete(int row) {
-                if (row != -1) {
-                    if (JOptionPane.showConfirmDialog(ListOfExpenseCategories.this, Constraints.CATEGORY_CONFIRM_DELETE_AN_EXPENSE, Constraints.LABEL_CONFIRM, JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-                        int result = CategoryDAO.getInstance().delete(categories.get(row));
-                        if (result > 0) {
-                            JOptionPane.showMessageDialog(ListOfExpenseCategories.this, Constraints.CATEGORY_DELETE_SUCCESS, Constraints.LABEL_INFORMATION, JOptionPane.INFORMATION_MESSAGE);
-                            categories.remove(row);
-                            loadData();
-                        } else {
-                            JOptionPane.showMessageDialog(ListOfExpenseCategories.this, Constraints.CATEGORY_DELETE_FAIL, Constraints.LABEL_ERROR, JOptionPane.ERROR_MESSAGE);
-                        }
+                if (table.isEditing()) {
+                    table.getCellEditor().stopCellEditing();
+                }
+                if (JOptionPane.showConfirmDialog(ListOfExpenseCategories.this, Constraints.CATEGORY_CONFIRM_DELETE_AN_EXPENSE, Constraints.LABEL_CONFIRM, JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                    int result = CategoryDAO.getInstance().delete(categories.get(row));
+                    if (result > 0) {
+                        JOptionPane.showMessageDialog(ListOfExpenseCategories.this, Constraints.CATEGORY_DELETE_SUCCESS, Constraints.LABEL_INFORMATION, JOptionPane.INFORMATION_MESSAGE);
+                        // Xóa hàng trực tiếp từ DefaultTableModel
+                        DefaultTableModel tblModel = (DefaultTableModel) table.getModel();
+                        tblModel.removeRow(row);
+                        loadData();
+                    } else {
+                        JOptionPane.showMessageDialog(ListOfExpenseCategories.this, Constraints.CATEGORY_DELETE_FAIL, Constraints.LABEL_ERROR, JOptionPane.ERROR_MESSAGE);
                     }
                 }
             }
@@ -261,33 +254,16 @@ public class ListOfExpenseCategories extends javax.swing.JPanel {
         centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
         table.getColumnModel().getColumn(0).setHeaderRenderer(centerRenderer);
         table.getColumnModel().getColumn(1).setHeaderRenderer(centerRenderer);
-        // Thêm ListSelectionListener vào JTable
-        ListSelectionModel selectionModel = table.getSelectionModel();
-        selectionModel.addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                if (!e.getValueIsAdjusting()) {
-                    int selectedRow = table.getSelectedRow();
-                    if (selectedRow != -1) {
-                        // Lấy dữ liệu từ các cột của dòng được chọn
-                        Object dataColumn1 = table.getValueAt(selectedRow, 0);
-
-                        // Hiển thị dữ liệu trong các JTextField
-                        txtName.setText(dataColumn1.toString());
-
-                    }
-                }
-            }
-        });
     }
 
     public void loadData() {
         this.categories = CategoryDAO.getInstance().selectbyType(true);
         DefaultTableModel model = (DefaultTableModel) table.getModel();
         model.setRowCount(0);
-        for (Category group1 : categories) {
-            model.addRow(new Object[]{group1.getCategoryName()});
+        for (Category category : categories) {
+            model.addRow(new Object[]{category.getCategoryName()});
         }
+
     }
 
     private void initSearch() {
@@ -295,10 +271,22 @@ public class ListOfExpenseCategories extends javax.swing.JPanel {
         txtSearch.setHint("Tìm kiếm danh mục...");
         txtSearch.setSelectedIndex(0);
     }
-
-    private void displayData(int i) {
-        Category group = categories.get(i);
-        txtName.setText(group.getCategoryName());
+    private void showDetails(){
+        ListSelectionModel selectionModel = table.getSelectionModel();
+        selectionModel.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                // Xử lý sự kiện khi người dùng chọn một hàng trong JTable
+                if (!e.getValueIsAdjusting()) {
+                    int selectedRow = table.getSelectedRow();
+                    if (selectedRow != -1) {
+                        // Lấy dữ liệu từ hàng được chọn và hiển thị nó trong các TextField
+                        Object name = table.getValueAt(selectedRow, 0);
+                        txtName.setText(name.toString());
+                    }
+                }
+            }
+        });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

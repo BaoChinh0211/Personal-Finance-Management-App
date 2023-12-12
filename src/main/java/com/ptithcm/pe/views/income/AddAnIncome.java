@@ -55,12 +55,12 @@ public class AddAnIncome extends javax.swing.JDialog {
         btnCancel = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle(com.ptithcm.pe.utilities.Constraints.ADD_AN_INCOME);
+        setTitle(com.ptithcm.pe.utilities.Constraints.TITLE_ADD_AN_INCOME);
 
         jLabel1.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 0, 153));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText(com.ptithcm.pe.utilities.Constraints.ADD_AN_INCOME);
+        jLabel1.setText(com.ptithcm.pe.utilities.Constraints.TITLE_ADD_AN_INCOME);
         jLabel1.setPreferredSize(new java.awt.Dimension(800, 50));
 
         lblType.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
@@ -112,7 +112,7 @@ public class AddAnIncome extends javax.swing.JDialog {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jSeparator2, javax.swing.GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE)
+                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel1Layout.createSequentialGroup()

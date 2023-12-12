@@ -28,7 +28,7 @@
         </Property>
         <Property name="horizontalAlignment" type="int" value="0"/>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-          <Connection code="com.ptithcm.pe.utilities.Constraints.TITLE_LIST_RECEIPT" type="code"/>
+          <Connection code="com.ptithcm.pe.utilities.Constraints.TITLE_LIST_OF_INCOMES" type="code"/>
         </Property>
       </Properties>
       <Constraints>
