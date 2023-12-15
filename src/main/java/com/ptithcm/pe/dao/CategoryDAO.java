@@ -6,7 +6,7 @@ package com.ptithcm.pe.dao;
 
 import com.ptithcm.pe.PersonalFinanceManagement;
 import com.ptithcm.pe.database.DatabaseHelper;
-import com.ptithcm.pe.model.Category;
+import com.ptithcm.pe.models.Category;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

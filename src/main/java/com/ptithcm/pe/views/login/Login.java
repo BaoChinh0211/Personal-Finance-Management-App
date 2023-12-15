@@ -7,7 +7,7 @@ package com.ptithcm.pe.views.login;
 import com.ptithcm.pe.PersonalFinanceManagement;
 import com.ptithcm.pe.views.main.Main;
 import com.ptithcm.pe.dao.UserDAO;
-import com.ptithcm.pe.model.User;
+import com.ptithcm.pe.models.User;
 import com.ptithcm.pe.utilities.Constraints;
 import com.ptithcm.pe.utilities.PasswordUtilities;
 

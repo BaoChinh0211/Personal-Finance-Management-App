@@ -8,9 +8,10 @@ public class Constraints {
             LABEL_ERROR = "Lỗi";
 
     /* Title */
-    public static final String TITLE_MAIN = "Quản lý chi tiêu cá nhân",
+    public static final String TITLE_HOME = "Giới thiệu",
+            TITLE_MAIN = "Quản lý chi tiêu cá nhân",
             TITLE_MY_INFORMATION = "Thông tin cá nhân",
-            TITLE_STATISTICS = "Thống kê",
+            TITLE_CHART = "Biểu đồ",
             TITLE_CLOSE_WINDOWS = "Đóng cửa sổ",
             TITLE_LOGIN = "Đăng nhập",
             TITLE_REGISTER = "Đăng ký",

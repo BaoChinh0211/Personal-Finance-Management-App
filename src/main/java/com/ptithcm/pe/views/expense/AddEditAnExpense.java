@@ -6,8 +6,8 @@ package com.ptithcm.pe.views.expense;
 
 import com.ptithcm.pe.dao.CategoryDAO;
 import com.ptithcm.pe.dao.FinancialDAO;
-import com.ptithcm.pe.model.Category;
-import com.ptithcm.pe.model.Financial;
+import com.ptithcm.pe.models.Category;
+import com.ptithcm.pe.models.Financial;
 import com.ptithcm.pe.utilities.Constraints;
 import java.awt.*;
 import java.sql.Timestamp;
@@ -128,7 +128,7 @@ public class AddEditAnExpense extends javax.swing.JDialog {
         lblTime.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         lblTime.setText("Thời gian:");
 
-        JSpinner.DateEditor de = new JSpinner.DateEditor(spinTime, "HH:mm:ss");
+        JSpinner.DateEditor de = new JSpinner.DateEditor(spinTime, "HH:mm");
         spinTime.setEditor(de);
         spinTime.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
 
@@ -242,15 +242,14 @@ public class AddEditAnExpense extends javax.swing.JDialog {
     }//GEN-LAST:event_btnCancelActionPerformed
 
     private void txtAmountKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtAmountKeyTyped
-        boolean check;
-        check = txtAmount.getText().contains(".");
+        boolean check1, check2, check3;
+        check1 = txtAmount.getText().contains(".");
+        check2 = txtAmount.getText().contains("+");
+        check3 = txtAmount.getText().contains("-");
         char c = evt.getKeyChar();
-//        if (!Character.isDigit(c)) {
-//            evt.consume();
-//        }
         if (!Character.isDigit(c)){
             if (!Character.isDigit(c) ){
-                if (check)
+                if (check1)
                     evt.consume();
             } else if (c != '.')
                 evt.consume();
@@ -267,13 +266,13 @@ public class AddEditAnExpense extends javax.swing.JDialog {
         Timestamp timestamp = new Timestamp(combinedDateTime.getTime());
         String note = txtNote.getText().trim();
         int amount = Integer.parseInt(txtAmount.getText().trim());
-        
+
         if (categoryName.isEmpty())
             JOptionPane.showMessageDialog(this, Constraints.FINANCIAL_CATEGORY_EMPTY, Constraints.LABEL_ERROR, JOptionPane.ERROR_MESSAGE);
         else if (amount < 1000)
             JOptionPane.showMessageDialog(this, Constraints.FINANCIAL_AMOUNT_SMALL, Constraints.LABEL_ERROR, JOptionPane.ERROR_MESSAGE);
         else {
-            if (flag){
+            if (flag) {
                 Financial financial = new Financial(amount, timestamp, note, category.getCategoryId());
                 int result = FinancialDAO.getInstance().insert(financial);
                 if (result > 0) {
@@ -292,6 +291,10 @@ public class AddEditAnExpense extends javax.swing.JDialog {
                 if (result > 0) {
                     JOptionPane.showMessageDialog(this, Constraints.FINANCIAL_UPDATE_EXPENSE_SUCCESS, Constraints.LABEL_INFORMATION, JOptionPane.INFORMATION_MESSAGE);
                     panel.loadData();
+                    panel.txtCategory.setText(cbbCategory.getSelectedItem().toString().trim());
+                    panel.txtAmount.setText(txtAmount.getText().trim());
+                    panel.txtDate.setText(timestamp.toString());
+                    panel.txtNote.setText(txtNote.getText());
                     this.dispose();
                 } else {
                     JOptionPane.showMessageDialog(this, Constraints.FINANCIAL_UPDATE_EXPENSE_FAIL, Constraints.LABEL_ERROR, JOptionPane.INFORMATION_MESSAGE);

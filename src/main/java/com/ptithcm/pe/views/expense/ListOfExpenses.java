@@ -7,14 +7,15 @@ package com.ptithcm.pe.views.expense;
 import com.ptithcm.pe.PersonalFinanceManagement;
 import com.ptithcm.pe.dao.CategoryDAO;
 import com.ptithcm.pe.dao.FinancialDAO;
-import com.ptithcm.pe.model.Category;
-import com.ptithcm.pe.model.Financial;
+import com.ptithcm.pe.models.Category;
+import com.ptithcm.pe.models.Financial;
 import com.ptithcm.pe.utilities.Constraints;
 import com.ptithcm.pe.utilities.cell.TableActionCellEditor;
 import com.ptithcm.pe.utilities.cell.TableActionCellRender;
 import com.ptithcm.pe.utilities.cell.TableActionEvent;
 import com.ptithcm.pe.utilities.search.SearchOptinEvent;
 import com.ptithcm.pe.utilities.search.SearchOption;
+import com.ptithcm.pe.utilities.tablecustom.TableCustom;
 import java.awt.ComponentOrientation;
 
 import java.awt.Frame;
@@ -50,6 +51,7 @@ public class ListOfExpenses extends javax.swing.JPanel {
         showDetails();
     }
 
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -62,8 +64,6 @@ public class ListOfExpenses extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         jSeparator2 = new javax.swing.JSeparator();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        table = new javax.swing.JTable();
         lblAmount = new javax.swing.JLabel();
         txtCategory = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
@@ -75,6 +75,8 @@ public class ListOfExpenses extends javax.swing.JPanel {
         txtNote = new javax.swing.JTextArea();
         txtSearch = new com.ptithcm.pe.utilities.search.TextFieldSearchOption();
         btnAdd = new javax.swing.JButton();
+        scrollTable = new javax.swing.JScrollPane();
+        table = new javax.swing.JTable();
 
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
@@ -89,42 +91,12 @@ public class ListOfExpenses extends javax.swing.JPanel {
 
         jSeparator2.setPreferredSize(new java.awt.Dimension(860, 10));
 
-        table.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Phân loại", "Số tiền", "Thời gian", "Ghi chú", "Hành động"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, true
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        table.setColumnSelectionAllowed(true);
-        table.setPreferredSize(new java.awt.Dimension(500, 200));
-        table.setRowHeight(40);
-        table.setSelectionBackground(new java.awt.Color(83, 174, 69));
-        jScrollPane1.setViewportView(table);
-        table.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        if (table.getColumnModel().getColumnCount() > 0) {
-            table.getColumnModel().getColumn(0).setPreferredWidth(20);
-            table.getColumnModel().getColumn(1).setPreferredWidth(40);
-            table.getColumnModel().getColumn(2).setPreferredWidth(100);
-            table.getColumnModel().getColumn(3).setPreferredWidth(200);
-            table.getColumnModel().getColumn(4).setPreferredWidth(10);
-        }
-
         lblAmount.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         lblAmount.setText("Số tiền:");
         lblAmount.setPreferredSize(new java.awt.Dimension(80, 35));
 
         txtCategory.setEditable(false);
-        txtCategory.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        txtCategory.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         txtCategory.setMinimumSize(new java.awt.Dimension(100, 30));
         txtCategory.setPreferredSize(new java.awt.Dimension(315, 40));
 
@@ -133,6 +105,7 @@ public class ListOfExpenses extends javax.swing.JPanel {
         jLabel4.setPreferredSize(new java.awt.Dimension(80, 35));
 
         txtDate.setEditable(false);
+        txtDate.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         txtDate.setMinimumSize(new java.awt.Dimension(100, 30));
         txtDate.setPreferredSize(new java.awt.Dimension(315, 40));
 
@@ -141,6 +114,7 @@ public class ListOfExpenses extends javax.swing.JPanel {
         jLabel5.setPreferredSize(new java.awt.Dimension(80, 35));
 
         txtAmount.setEditable(false);
+        txtAmount.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         txtAmount.setMinimumSize(new java.awt.Dimension(100, 30));
         txtAmount.setPreferredSize(new java.awt.Dimension(315, 40));
 
@@ -152,6 +126,7 @@ public class ListOfExpenses extends javax.swing.JPanel {
         txtNote.setLineWrap(true);
         txtNote.setEditable(false);
         txtNote.setColumns(20);
+        txtNote.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         txtNote.setRows(5);
         txtNote.setPreferredSize(new java.awt.Dimension(315, 100));
         jScrollPane2.setViewportView(txtNote);
@@ -173,47 +148,69 @@ public class ListOfExpenses extends javax.swing.JPanel {
             }
         });
 
+        table.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Phân loại", "Số tiền", "Ngày tháng", "Ghi chú", "Hành động"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, true
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        table.setRowHeight(40);
+        scrollTable.setViewportView(table);
+        if (table.getColumnModel().getColumnCount() > 0) {
+            table.getColumnModel().getColumn(0).setPreferredWidth(30);
+            table.getColumnModel().getColumn(1).setPreferredWidth(15);
+            table.getColumnModel().getColumn(3).setPreferredWidth(250);
+            table.getColumnModel().getColumn(4).setPreferredWidth(15);
+        }
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jSeparator2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(scrollTable)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(52, 52, 52)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtAmount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(lblAmount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtCategory, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(lblNote, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 325, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 149, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jSeparator2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jSeparator1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
                         .addComponent(btnAdd)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jSeparator1, javax.swing.GroupLayout.DEFAULT_SIZE, 988, Short.MAX_VALUE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtAmount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(lblAmount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtCategory, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(lblNote, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 325, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(72, 72, 72))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -225,9 +222,9 @@ public class ListOfExpenses extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 18, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
+                .addComponent(scrollTable, javax.swing.GroupLayout.DEFAULT_SIZE, 326, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -242,7 +239,7 @@ public class ListOfExpenses extends javax.swing.JPanel {
                         .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(lblNote, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(130, Short.MAX_VALUE))
+                .addGap(49, 49, 49))
         );
 
         lblAmount.getAccessibleContext().setAccessibleName("");
@@ -251,7 +248,7 @@ public class ListOfExpenses extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     public void loadData() {
-        this.financials = FinancialDAO.getInstance().selectByGroup(true);
+        this.financials = FinancialDAO.getInstance().selectByCategory(true);
         DefaultTableModel model = (DefaultTableModel) table.getModel();
         model.setRowCount(0);
         for (Financial financial : financials) {
@@ -262,6 +259,7 @@ public class ListOfExpenses extends javax.swing.JPanel {
     }
 
     private void initTable() {
+        TableCustom.apply(scrollTable, TableCustom.TableType.MULTI_LINE);
         // Xử lý sự kiện nút Edit và Delete
         TableActionEvent event = new TableActionEvent() {
             @Override
@@ -324,6 +322,10 @@ public class ListOfExpenses extends javax.swing.JPanel {
                         DefaultTableModel tblModel = (DefaultTableModel) table.getModel();
                         tblModel.removeRow(row);
                         loadData();
+                        txtAmount.setText("");
+                        txtDate.setText("");
+                        txtCategory.setText("");
+                        txtNote.setText("");
                     } else {
                         JOptionPane.showMessageDialog(ListOfExpenses.this, Constraints.FINANCIAL_DELETE_EXPENSE_FAIL, Constraints.LABEL_ERROR, JOptionPane.ERROR_MESSAGE);
                     }
@@ -421,17 +423,17 @@ public class ListOfExpenses extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JLabel lblAmount;
     private javax.swing.JLabel lblNote;
+    private javax.swing.JScrollPane scrollTable;
     private javax.swing.JTable table;
-    private javax.swing.JTextField txtAmount;
-    private javax.swing.JTextField txtCategory;
-    private javax.swing.JTextField txtDate;
-    private javax.swing.JTextArea txtNote;
+    public javax.swing.JTextField txtAmount;
+    public javax.swing.JTextField txtCategory;
+    public javax.swing.JTextField txtDate;
+    public javax.swing.JTextArea txtNote;
     private com.ptithcm.pe.utilities.search.TextFieldSearchOption txtSearch;
     // End of variables declaration//GEN-END:variables
 }

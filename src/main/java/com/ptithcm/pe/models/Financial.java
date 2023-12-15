@@ -2,10 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.ptithcm.pe.model;
+package com.ptithcm.pe.models;
 
 import java.sql.Timestamp;
-import java.util.Date;
+
 
 /**
  *
@@ -74,9 +74,6 @@ public class Financial {
 
     public void setCategoryId(int categoryId) {
         this.categoryId = categoryId;
-    }
-
-    
-    
+    }    
     
 }

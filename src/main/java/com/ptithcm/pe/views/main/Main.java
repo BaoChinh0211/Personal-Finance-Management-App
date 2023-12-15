@@ -6,6 +6,8 @@ package com.ptithcm.pe.views.main;
 
 import com.ptithcm.pe.utilities.TabbedPaneUtilities;
 import com.ptithcm.pe.utilities.Constraints;
+import com.ptithcm.pe.views.chart.ChartPanel;
+//import com.ptithcm.pe.views.chart.ChartPanel;
 import com.ptithcm.pe.views.expense.ListOfExpenses;
 import com.ptithcm.pe.views.expense.ListOfExpenseCategories;
 import com.ptithcm.pe.views.income.ListOfIncomeCategories;
@@ -23,7 +25,7 @@ public class Main extends javax.swing.JFrame {
      */
     public Main() {
         initComponents();
-        setSize(1000,800);
+        setSize(1000, 800);
         setDefaultCloseOperation(Main.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setExtendedState(Main.NORMAL);
@@ -49,7 +51,8 @@ public class Main extends javax.swing.JFrame {
         jSeparator4 = new javax.swing.JToolBar.Separator();
         btnMyInformation = new javax.swing.JButton();
         btnCloseTab = new javax.swing.JButton();
-        tabbedPane = new javax.swing.JTabbedPane();
+        tabbedPane = new com.ptithcm.pe.utilities.tabbedPane.TabbedPaneCustom();
+        jPanel1 = new javax.swing.JPanel();
         jMenuBar1 = new javax.swing.JMenuBar();
         menuFile = new javax.swing.JMenu();
         mniLogin = new javax.swing.JMenuItem();
@@ -132,7 +135,7 @@ public class Main extends javax.swing.JFrame {
 
         btnStatistic.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         btnStatistic.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icon_statistic32.png"))); // NOI18N
-        btnStatistic.setText(com.ptithcm.pe.utilities.Constraints.TITLE_STATISTICS);
+        btnStatistic.setText(com.ptithcm.pe.utilities.Constraints.TITLE_CHART);
         btnStatistic.setFocusable(false);
         btnStatistic.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnStatistic.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -170,7 +173,22 @@ public class Main extends javax.swing.JFrame {
         });
         jToolBar1.add(btnCloseTab);
 
-        tabbedPane.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        tabbedPane.setFont(new java.awt.Font("Arial", 2, 14)); // NOI18N
+        tabbedPane.setSelectedColor(new java.awt.Color(50, 159, 242));
+        tabbedPane.setUnselectedColor(new java.awt.Color(186, 215, 255));
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 980, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 616, Short.MAX_VALUE)
+        );
+
+        tabbedPane.addTab("Giới thiệu", jPanel1);
 
         jMenuBar1.setPreferredSize(new java.awt.Dimension(80, 30));
 
@@ -248,7 +266,7 @@ public class Main extends javax.swing.JFrame {
 
         mniStatistics.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         mniStatistics.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icon_statistic32.png"))); // NOI18N
-        mniStatistics.setText(com.ptithcm.pe.utilities.Constraints.TITLE_STATISTICS);
+        mniStatistics.setText(com.ptithcm.pe.utilities.Constraints.TITLE_CHART);
         mniStatistics.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mniStatisticsActionPerformed(evt);
@@ -289,18 +307,18 @@ public class Main extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 1000, Short.MAX_VALUE)
+            .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(tabbedPane)
+                .addComponent(tabbedPane, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(tabbedPane, javax.swing.GroupLayout.DEFAULT_SIZE, 690, Short.MAX_VALUE)
+                .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(tabbedPane, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -348,11 +366,11 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_btnListOfIncoeCategoriesActionPerformed
 
     private void btnStatisticActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStatisticActionPerformed
-        // TODO add your handling code here:
+        showChart();
     }//GEN-LAST:event_btnStatisticActionPerformed
 
     private void mniStatisticsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniStatisticsActionPerformed
-        // TODO add your handling code here:
+        showChart();
     }//GEN-LAST:event_mniStatisticsActionPerformed
 
     private void MyInformationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MyInformationActionPerformed
@@ -364,43 +382,57 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_btnMyInformationActionPerformed
 
     private void btnCloseTabActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseTabActionPerformed
-        int selectedIndex = tabbedPane.getSelectedIndex();
-        if (selectedIndex != -1) {
-            tabbedPane.removeTabAt(selectedIndex);
+        for (int i = 0; i < tabbedPane.getTabCount(); i++) {
+            if (!tabbedPane.getTitleAt(i).equals(Constraints.TITLE_HOME)) {
+                int selectedIndex = tabbedPane.getSelectedIndex();
+                if (selectedIndex != -1) {
+                    tabbedPane.removeTabAt(selectedIndex);
+                }
+            }
         }
     }//GEN-LAST:event_btnCloseTabActionPerformed
 
-    private void showListOfExpenses(){
-       boolean flag = TabbedPaneUtilities.checkTabbedExist(Constraints.TITLE_LIST_OF_EXPENSES, tabbedPane);
-        if (flag == false){
+    private void showListOfExpenses() {
+        boolean flag = TabbedPaneUtilities.checkTabbedExist(Constraints.TITLE_LIST_OF_EXPENSES, tabbedPane);
+        if (flag == false) {
             ListOfExpenses list = new ListOfExpenses();
             TabbedPaneUtilities.createTab(tabbedPane, Constraints.TITLE_LIST_OF_EXPENSES, list);
         }
     }
-    
-    private void showListOfExpenseCategories(){
-       boolean flag = TabbedPaneUtilities.checkTabbedExist(Constraints.TITLE_LIST_EXPENSE_CATEGORIES, tabbedPane);
-        if (!flag){
+
+    private void showListOfExpenseCategories() {
+        boolean flag = TabbedPaneUtilities.checkTabbedExist(Constraints.TITLE_LIST_EXPENSE_CATEGORIES, tabbedPane);
+        if (!flag) {
             ListOfExpenseCategories list = new ListOfExpenseCategories();
             TabbedPaneUtilities.createTab(tabbedPane, Constraints.TITLE_LIST_EXPENSE_CATEGORIES, list);
         }
     }
-    
-    private void showListOfIncomes(){
-       boolean flag = TabbedPaneUtilities.checkTabbedExist(Constraints.TITLE_LIST_OF_INCOMES, tabbedPane);
-        if (!flag){
+
+    private void showListOfIncomes() {
+        boolean flag = TabbedPaneUtilities.checkTabbedExist(Constraints.TITLE_LIST_OF_INCOMES, tabbedPane);
+        if (!flag) {
             ListOfIncome list = new ListOfIncome();
             TabbedPaneUtilities.createTab(tabbedPane, Constraints.TITLE_LIST_OF_INCOMES, list);
         }
     }
-    
-    private void showListOfIncomeCategories(){
-       boolean flag = TabbedPaneUtilities.checkTabbedExist(Constraints.TITLE_LIST_INCOME_CATEGORIES, tabbedPane);
-        if (flag == false){
+
+    private void showListOfIncomeCategories() {
+        boolean flag = TabbedPaneUtilities.checkTabbedExist(Constraints.TITLE_LIST_INCOME_CATEGORIES, tabbedPane);
+        if (flag == false) {
             ListOfIncomeCategories list = new ListOfIncomeCategories();
             TabbedPaneUtilities.createTab(tabbedPane, Constraints.TITLE_LIST_INCOME_CATEGORIES, list);
         }
     }
+
+    private void showChart() {
+        boolean flag = TabbedPaneUtilities.checkTabbedExist(Constraints.TITLE_CHART, tabbedPane);
+        if (flag == false) {
+            ChartPanel chart = new ChartPanel();
+            TabbedPaneUtilities.createTab(tabbedPane, Constraints.TITLE_CHART, chart);
+            chart.chart1.start();
+        }
+    }
+
     /**
      * @param args the command line arguments
      */
@@ -453,6 +485,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
@@ -471,6 +504,6 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JMenuItem mniLogin;
     private javax.swing.JMenuItem mniLogout;
     private javax.swing.JMenuItem mniStatistics;
-    private javax.swing.JTabbedPane tabbedPane;
+    private com.ptithcm.pe.utilities.tabbedPane.TabbedPaneCustom tabbedPane;
     // End of variables declaration//GEN-END:variables
 }

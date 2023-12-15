@@ -1,7 +1,7 @@
 package com.ptithcm.pe.test;
 
 import com.ptithcm.pe.dao.CategoryDAO;
-import com.ptithcm.pe.model.Category;
+import com.ptithcm.pe.models.Category;
 import java.util.ArrayList;
 
 public class TestICategoryDAO {

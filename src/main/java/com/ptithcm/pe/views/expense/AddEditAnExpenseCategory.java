@@ -6,7 +6,7 @@ package com.ptithcm.pe.views.expense;
 
 import com.ptithcm.pe.PersonalFinanceManagement;
 import com.ptithcm.pe.dao.CategoryDAO;
-import com.ptithcm.pe.model.Category;
+import com.ptithcm.pe.models.Category;
 import com.ptithcm.pe.utilities.Constraints;
 import com.ptithcm.pe.utilities.ValidationUtilities;
 import java.util.ArrayList;
@@ -155,7 +155,7 @@ public class AddEditAnExpenseCategory extends javax.swing.JDialog {
             int result = CategoryDAO.getInstance().insert(newCategory);
             if (result > 0) {
                 JOptionPane.showMessageDialog(this, Constraints.CATEGORY_ADD_SUCCESS, Constraints.LABEL_INFORMATION, JOptionPane.INFORMATION_MESSAGE);
-                panel.loadData();
+                panel.loadData();               
                 this.dispose();
             } else {
                 JOptionPane.showMessageDialog(this, Constraints.CATEGORY_ADD_FAIL, Constraints.LABEL_ERROR, JOptionPane.ERROR_MESSAGE);
@@ -167,6 +167,7 @@ public class AddEditAnExpenseCategory extends javax.swing.JDialog {
             if (result > 0) {
                 JOptionPane.showMessageDialog(this, Constraints.CATEGORY_UPDATE_SUCCESS, Constraints.LABEL_INFORMATION, JOptionPane.INFORMATION_MESSAGE);
                 panel.loadData();
+                panel.txtName.setText(nameCategory);
                 this.dispose();
             } else {
                 JOptionPane.showMessageDialog(this, Constraints.CATEGORY_UPDATE_FAIL, Constraints.LABEL_ERROR, JOptionPane.ERROR_MESSAGE);

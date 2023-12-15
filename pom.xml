@@ -72,6 +72,13 @@
             <version>1.0</version>
         </dependency>
 
+        <dependency>
+            <groupId>TimingFramework</groupId>
+            <artifactId>TimingFramework</artifactId>
+            <scope>system</scope>
+            <version>0.55</version>
+            <systemPath>${project.basedir}/libs/TimingFramework-0.55.jar</systemPath>
+        </dependency>
 
     </dependencies>
     

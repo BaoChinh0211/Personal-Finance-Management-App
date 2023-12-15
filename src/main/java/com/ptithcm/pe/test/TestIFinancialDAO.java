@@ -1,7 +1,7 @@
 package com.ptithcm.pe.test;
 
 import com.ptithcm.pe.dao.FinancialDAO;
-import com.ptithcm.pe.model.Financial;
+import com.ptithcm.pe.models.Financial;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;

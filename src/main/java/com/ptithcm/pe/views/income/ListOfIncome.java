@@ -4,10 +4,33 @@
  */
 package com.ptithcm.pe.views.income;
 
+import com.ptithcm.pe.views.income.*;
+import com.ptithcm.pe.PersonalFinanceManagement;
+import com.ptithcm.pe.dao.CategoryDAO;
+import com.ptithcm.pe.dao.FinancialDAO;
+import com.ptithcm.pe.models.Category;
+import com.ptithcm.pe.models.Financial;
 import com.ptithcm.pe.utilities.Constraints;
+import com.ptithcm.pe.utilities.cell.TableActionCellEditor;
+import com.ptithcm.pe.utilities.cell.TableActionCellRender;
+import com.ptithcm.pe.utilities.cell.TableActionEvent;
+import com.ptithcm.pe.utilities.search.SearchOptinEvent;
+import com.ptithcm.pe.utilities.search.SearchOption;
+import java.awt.ComponentOrientation;
 
 import java.awt.Frame;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
+import javax.swing.ListSelectionModel;
+import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -15,11 +38,17 @@ import javax.swing.SwingUtilities;
  */
 public class ListOfIncome extends javax.swing.JPanel {
 
+    ArrayList<Financial> financials = new ArrayList<Financial>();
+
     /**
      * Creates new form ListExpenditurePanel
      */
     public ListOfIncome() {
         initComponents();
+        loadData();
+        initTable();
+        initSearch();
+        showDetails();
     }
 
     /**
@@ -31,156 +60,380 @@ public class ListOfIncome extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        searchOption1 = new com.ptithcm.pe.utilities.search.SearchOption();
         jLabel1 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         jSeparator2 = new javax.swing.JSeparator();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jLabel3 = new javax.swing.JLabel();
+        table = new javax.swing.JTable();
+        lblAmount = new javax.swing.JLabel();
+        txtCategory = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
+        txtDate = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        txtCode = new javax.swing.JTextField();
-        txtGroup = new javax.swing.JTextField();
         txtAmount = new javax.swing.JTextField();
-        jLabel7 = new javax.swing.JLabel();
+        lblNote = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         txtNote = new javax.swing.JTextArea();
         btnAdd = new javax.swing.JButton();
-        btnRefresh = new javax.swing.JButton();
+        textFieldSearchOption1 = new com.ptithcm.pe.utilities.search.TextFieldSearchOption();
 
-        setLayout(null);
+        setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        setPreferredSize(new java.awt.Dimension(1000, 750));
 
         jLabel1.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 0, 153));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText(com.ptithcm.pe.utilities.Constraints.TITLE_LIST_OF_INCOMES);
-        add(jLabel1);
-        jLabel1.setBounds(0, 0, 800, 65);
-        add(jSeparator1);
-        jSeparator1.setBounds(0, 64, 860, 3);
-        add(jSeparator2);
-        jSeparator2.setBounds(30, 330, 788, 3);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jSeparator1.setPreferredSize(new java.awt.Dimension(860, 10));
+
+        jSeparator2.setPreferredSize(new java.awt.Dimension(860, 10));
+
+        table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+
             },
             new String [] {
-                "Mã", "Danh mục", "Số tiền", "Thời gian", "Ghi chú"
+                "Phân loại", "Số tiền", "Thời gian", "Ghi chú", "Hành động"
             }
         ) {
-            Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, true
             };
 
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        table.setColumnSelectionAllowed(true);
+        table.setPreferredSize(new java.awt.Dimension(500, 200));
+        table.setRowHeight(40);
+        table.setSelectionBackground(new java.awt.Color(83, 174, 69));
+        jScrollPane1.setViewportView(table);
+        table.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        if (table.getColumnModel().getColumnCount() > 0) {
+            table.getColumnModel().getColumn(0).setPreferredWidth(20);
+            table.getColumnModel().getColumn(1).setPreferredWidth(40);
+            table.getColumnModel().getColumn(2).setPreferredWidth(100);
+            table.getColumnModel().getColumn(3).setPreferredWidth(200);
+            table.getColumnModel().getColumn(4).setPreferredWidth(10);
+        }
 
-        add(jScrollPane1);
-        jScrollPane1.setBounds(30, 90, 788, 225);
+        lblAmount.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        lblAmount.setText("Số tiền:");
+        lblAmount.setPreferredSize(new java.awt.Dimension(80, 35));
 
-        jLabel3.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jLabel3.setText("Mã:");
-        add(jLabel3);
-        jLabel3.setBounds(30, 350, 100, 30);
+        txtCategory.setEditable(false);
+        txtCategory.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        txtCategory.setMinimumSize(new java.awt.Dimension(100, 30));
+        txtCategory.setPreferredSize(new java.awt.Dimension(315, 40));
 
         jLabel4.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel4.setText("Ngày tháng:");
-        add(jLabel4);
-        jLabel4.setBounds(30, 470, 100, 30);
+        jLabel4.setPreferredSize(new java.awt.Dimension(80, 35));
+
+        txtDate.setEditable(false);
+        txtDate.setMinimumSize(new java.awt.Dimension(100, 30));
+        txtDate.setPreferredSize(new java.awt.Dimension(315, 40));
 
         jLabel5.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel5.setText("Phân loại:");
-        add(jLabel5);
-        jLabel5.setBounds(30, 390, 100, 30);
+        jLabel5.setPreferredSize(new java.awt.Dimension(80, 35));
 
-        jLabel6.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jLabel6.setText("Số tiền:");
-        add(jLabel6);
-        jLabel6.setBounds(30, 430, 100, 30);
-
-        jTextField1.setMinimumSize(new java.awt.Dimension(100, 30));
-        add(jTextField1);
-        jTextField1.setBounds(130, 470, 240, 30);
-
-        txtCode.setMinimumSize(new java.awt.Dimension(100, 30));
-        add(txtCode);
-        txtCode.setBounds(130, 350, 240, 30);
-
-        txtGroup.setMinimumSize(new java.awt.Dimension(100, 30));
-        add(txtGroup);
-        txtGroup.setBounds(130, 390, 240, 30);
-
+        txtAmount.setEditable(false);
         txtAmount.setMinimumSize(new java.awt.Dimension(100, 30));
-        add(txtAmount);
-        txtAmount.setBounds(130, 430, 240, 30);
+        txtAmount.setPreferredSize(new java.awt.Dimension(315, 40));
 
-        jLabel7.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jLabel7.setText("Ghi chú:");
-        add(jLabel7);
-        jLabel7.setBounds(30, 510, 100, 30);
+        lblNote.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        lblNote.setText("Ghi chú:");
+        lblNote.setPreferredSize(new java.awt.Dimension(80, 35));
 
         txtNote.setWrapStyleWord(true);
         txtNote.setLineWrap(true);
+        txtNote.setEditable(false);
         txtNote.setColumns(20);
         txtNote.setRows(5);
+        txtNote.setPreferredSize(new java.awt.Dimension(315, 100));
         jScrollPane2.setViewportView(txtNote);
 
-        add(jScrollPane2);
-        jScrollPane2.setBounds(130, 510, 240, 90);
-
         btnAdd.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icon_add32.png"))); // NOI18N
+        btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icon_add20.png"))); // NOI18N
         btnAdd.setText("Thêm mới");
         btnAdd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAddActionPerformed(evt);
             }
         });
-        add(btnAdd);
-        btnAdd.setBounds(540, 390, 129, 42);
 
-        btnRefresh.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        btnRefresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icon_refresh32.png"))); // NOI18N
-        btnRefresh.setText("Làm mới");
-        add(btnRefresh);
-        btnRefresh.setBounds(540, 470, 130, 42);
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(52, 52, 52)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(txtDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(txtAmount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(lblAmount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(txtCategory, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(lblNote, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 325, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(btnAdd)))
+                        .addGap(0, 112, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jSeparator2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jSeparator1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(textFieldSearchOption1, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap())
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 18, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(textFieldSearchOption1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblAmount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtCategory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtAmount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txtDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblNote, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(130, Short.MAX_VALUE))
+        );
+
+        lblAmount.getAccessibleContext().setAccessibleName("");
+        txtCategory.getAccessibleContext().setAccessibleDescription("");
+        lblNote.getAccessibleContext().setAccessibleName("");
     }// </editor-fold>//GEN-END:initComponents
 
+    public void loadData() {
+        this.financials = FinancialDAO.getInstance().selectByCategory(false);
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        model.setRowCount(0);
+        for (Financial financial : financials) {
+            int CategoryId = financial.getCategoryId();
+            Category category = CategoryDAO.getInstance().selectById(CategoryId);
+            model.addRow(new Object[]{category.getCategoryName(), financial.getAmount(), financial.getDateTime(), financial.getNote()});
+        }
+    }
+
+    private void initTable() {
+        // Xử lý sự kiện nút Edit và Delete
+        TableActionEvent event = new TableActionEvent() {
+            @Override
+            public void onEdit(int row) {
+                if (row != -1) {
+                    Financial financial = financials.get(row);
+                    Category category = CategoryDAO.getInstance().selectById(financial.getCategoryId());
+                    AddEditAnIncome panel = new AddEditAnIncome((Frame) SwingUtilities.getWindowAncestor(ListOfIncome.this), true, ListOfIncome.this, financial, false);
+                    panel.setTitle(Constraints.TITLE_UPDATE_AN_INCOME);
+                    panel.lblTitle.setText(Constraints.TITLE_UPDATE_AN_INCOME);
+
+                    // Set phân loại của cbbCategory
+                    for (int i = 0; i < panel.cbbCategory.getItemCount(); i++) {
+                        String name = category.getCategoryName();
+                        String value = panel.cbbCategory.getItemAt(i);
+                        if (value.equals(name)) {
+                            panel.cbbCategory.setSelectedIndex(i);
+                            break;
+                        }
+                    }
+                    // Chuyển Timestamp thành đối tượng Date
+                    Date date = new Date(financial.getDateTime().getTime());
+
+                    // Định dạng lại ngày để hiển thị lên JDateChooser
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+                    String dateStr = dateFormat.format(date);
+                    try {
+                        panel.dcrDate.setDate(dateFormat.parse(dateStr));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                    // Định dạng lại giờ để hiển thị lên JSpinner
+                    SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
+                    String timeStr = timeFormat.format(date);
+                    try {
+                        panel.spinTime.setValue(timeFormat.parse(timeStr));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                    panel.txtNote.setText(financial.getNote());
+                    panel.txtAmount.setText(String.valueOf(financial.getAmount()));
+
+                    panel.setSize(800, 550);
+                    panel.setLocationRelativeTo(null);
+                    panel.setVisible(true);
+                }
+            }
+
+            @Override
+            public void onDelete(int row) {
+                if (table.isEditing()) {
+                    table.getCellEditor().stopCellEditing();
+                }
+                if (JOptionPane.showConfirmDialog(ListOfIncome.this, Constraints.FINANCIAL_CONFIRM_DELETE_AN_INCOME, Constraints.LABEL_CONFIRM, JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                    int result = FinancialDAO.getInstance().delete(financials.get(row));
+                    if (result > 0) {
+                        JOptionPane.showMessageDialog(ListOfIncome.this, Constraints.FINANCIAL_DELETE_INCOME_SUCCESS, Constraints.LABEL_INFORMATION, JOptionPane.INFORMATION_MESSAGE);
+                        DefaultTableModel tblModel = (DefaultTableModel) table.getModel();
+                        tblModel.removeRow(row);
+                        loadData();
+                    } else {
+                        JOptionPane.showMessageDialog(ListOfIncome.this, Constraints.FINANCIAL_DELETE_INCOME_FAIL, Constraints.LABEL_ERROR, JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+            }
+
+        };
+        table.getColumnModel().getColumn(4).setCellRenderer(new TableActionCellRender());
+        table.getColumnModel().getColumn(4).setCellEditor(new TableActionCellEditor(event));
+    }
+
+    private void initSearch() {
+//        txtSearch.addEventOptionSelected(new SearchOptinEvent() {
+//            @Override
+//            public void optionSelected(SearchOption option, int index) {
+//                txtSearch.setHint("Tìm kiếm theo " + option.getName() + "...");
+//            }
+//
+//        });
+//        txtSearch.addOption(new SearchOption("Phân loại", new ImageIcon(getClass().getResource("/icons/icon_category20.png"))));
+//        txtSearch.addOption(new SearchOption("Số tiền", new ImageIcon(getClass().getResource("/icons/icon_amount20.png"))));
+//        txtSearch.addOption(new SearchOption("Thời gian", new ImageIcon(getClass().getResource("/icons/icon_time20.png"))));
+//        txtSearch.addOption(new SearchOption("Ghi chú", new ImageIcon(getClass().getResource("/icons/icon_note20.png"))));
+//        txtSearch.setSelectedIndex(0);
+    }
+
+    private void showDetails() {
+        ListSelectionModel selectionModel = table.getSelectionModel();
+        selectionModel.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                // Xử lý sự kiện khi người dùng chọn một hàng trong JTable
+                if (!e.getValueIsAdjusting()) {
+                    int selectedRow = table.getSelectedRow();
+                    if (selectedRow != -1) {
+                        // Lấy dữ liệu từ hàng được chọn và hiển thị nó trong các TextField
+                        Object category = table.getValueAt(selectedRow, 0);
+                        Object amount = table.getValueAt(selectedRow, 1);
+                        Object time = table.getValueAt(selectedRow, 2);
+                        Object note = table.getValueAt(selectedRow, 3);
+
+                        txtCategory.setText(category.toString());
+                        txtAmount.setText(amount.toString());
+                        txtDate.setText(time.toString());
+                        txtNote.setText(note.toString());
+                    }
+                }
+            }
+        });
+    }
+
+
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        AddAnIncome addNewRevenuesTypeRec = new AddAnIncome((Frame) SwingUtilities.getWindowAncestor(this), true);
-        addNewRevenuesTypeRec.setSize(800,500);
-        addNewRevenuesTypeRec.setLocationRelativeTo(null);
-        addNewRevenuesTypeRec.setVisible(true);
+        AddEditAnIncome panel = new AddEditAnIncome((Frame) SwingUtilities.getWindowAncestor(this), true, ListOfIncome.this, true);
+        panel.setSize(800, 500);
+        panel.setTitle(Constraints.TITLE_ADD_AN_INCOME);
+        panel.lblTitle.setText(Constraints.TITLE_ADD_AN_INCOME);
+        panel.setSize(800, 550);
+        panel.setLocationRelativeTo(null);
+        panel.setVisible(true);
     }//GEN-LAST:event_btnAddActionPerformed
+
+    private void txtSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyReleased
+//        if (txtSearch.isSelected()) {
+//            ArrayList<Financial> searchFinancials = new ArrayList<>();
+//            int userId = PersonalFinanceManagement.getInstance().getUserId();
+//            int option = txtSearch.getSelectedIndex();
+//            String text = "%" + txtSearch.getText().trim() + "%";
+//            if (option == 0) {
+//                String where = "WHERE CategoryId IN (SELECT CategoryId FROM Category c WHERE c.UserId = ? AND CategoryName LIKE ? AND CategoryType = 0)";
+//                searchFinancials = FinancialDAO.getInstance().searchByCondidion(where, userId, text);
+//            } else if (option == 1) {
+//                String where = "WHERE Amount LIKE ? AND CategoryId IN (SELECT CategoryId FROM Category c WHERE c.UserId = ? AND CategoryType = 0)";
+//                searchFinancials = FinancialDAO.getInstance().searchByCondidion(where, text, userId);
+//            } else if (option == 2) {
+//                String where = "WHERE [DateTime] LIKE ? AND CategoryId IN (SELECT CategoryId FROM Category c WHERE c.UserId = ? AND CategoryType = 0)";
+//                searchFinancials = FinancialDAO.getInstance().searchByCondidion(where, text, userId);
+//            } else if (option == 3) {
+//                String where = "WHERE Note LIKE ? AND CategoryId IN (SELECT CategoryId FROM Category c WHERE c.UserId = ? AND CategoryType = 0)";
+//                searchFinancials = FinancialDAO.getInstance().searchByCondidion(where, text, userId);
+//            }
+//            DefaultTableModel model = (DefaultTableModel) table.getModel();
+//            model.setRowCount(0);
+//            for (Financial financial : searchFinancials) {
+//                int CategoryId = financial.getCategoryId();
+//                Category category = CategoryDAO.getInstance().selectById(CategoryId);
+//                model.addRow(new Object[]{category.getCategoryName(), financial.getAmount(), financial.getDateTime(), financial.getNote()});
+//            }
+//        }
+    }//GEN-LAST:event_txtSearchKeyReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
-    private javax.swing.JButton btnRefresh;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField txtAmount;
-    private javax.swing.JTextField txtCode;
-    private javax.swing.JTextField txtGroup;
-    private javax.swing.JTextArea txtNote;
+    private javax.swing.JLabel lblAmount;
+    private javax.swing.JLabel lblNote;
+    private com.ptithcm.pe.utilities.search.SearchOption searchOption1;
+    private javax.swing.JTable table;
+    private com.ptithcm.pe.utilities.search.TextFieldSearchOption textFieldSearchOption1;
+    public javax.swing.JTextField txtAmount;
+    public javax.swing.JTextField txtCategory;
+    public javax.swing.JTextField txtDate;
+    public javax.swing.JTextArea txtNote;
     // End of variables declaration//GEN-END:variables
 }

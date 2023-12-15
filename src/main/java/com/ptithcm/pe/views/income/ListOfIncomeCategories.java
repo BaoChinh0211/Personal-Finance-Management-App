@@ -5,20 +5,41 @@
 package com.ptithcm.pe.views.income;
 
 //import com.ptithcm.pe.UI.Dialogs.AddNewRevenuesTypeE;
+import com.ptithcm.pe.views.income.*;
+import com.ptithcm.pe.dao.CategoryDAO;
+import com.ptithcm.pe.models.Category;
+import com.ptithcm.pe.utilities.Constraints;
+import com.ptithcm.pe.utilities.cell.TableActionCellEditor;
+import com.ptithcm.pe.utilities.cell.TableActionCellRender;
+import com.ptithcm.pe.utilities.cell.TableActionEvent;
+import com.ptithcm.pe.utilities.search.SearchOption;
+import java.awt.Component;
+
 import java.awt.Frame;
-import javax.swing.SwingUtilities;
+import java.util.ArrayList;
+import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
 /**
- *
  * @author tezca
  */
 public class ListOfIncomeCategories extends javax.swing.JPanel {
+
+    ArrayList<Category> categories = new ArrayList<Category>();
 
     /**
      * Creates new form ListExpenditureTypePanel
      */
     public ListOfIncomeCategories() {
         initComponents();
+        loadData();
+        initTable();
+        initSearch();
+        showDetails();
     }
 
     /**
@@ -30,128 +51,238 @@ public class ListOfIncomeCategories extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
-        jSeparator1 = new javax.swing.JSeparator();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        tbeData = new javax.swing.JTable();
-        txtName = new javax.swing.JTextField();
+        lblTitle = new javax.swing.JLabel();
+        txtSearch = new com.ptithcm.pe.utilities.search.TextFieldSearchOption();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        table = new javax.swing.JTable();
         lblName = new javax.swing.JLabel();
+        txtName = new javax.swing.JTextField();
         btnAdd = new javax.swing.JButton();
-        btnRefresh = new javax.swing.JButton();
+        jSeparator1 = new javax.swing.JSeparator();
 
-        jLabel1.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(0, 51, 153));
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText(com.ptithcm.pe.utilities.Constraints.TITLE_LIST_INCOME_CATEGORIES);
+        setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        setPreferredSize(new java.awt.Dimension(1200, 900));
 
-        jSeparator1.setPreferredSize(new java.awt.Dimension(814, 10));
+        lblTitle.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
+        lblTitle.setForeground(new java.awt.Color(0, 0, 204));
+        lblTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblTitle.setText(Constraints.TITLE_LIST_INCOME_CATEGORIES);
+        lblTitle.setPreferredSize(new java.awt.Dimension(1194, 50));
 
-        tbeData.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
-            },
-            new String [] {
-                "ID", "Name"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
+        txtSearch.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        txtSearch.setPreferredSize(new java.awt.Dimension(350, 34));
+        txtSearch.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtSearchKeyReleased(evt);
             }
         });
-        jScrollPane2.setViewportView(tbeData);
 
-        txtName.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        txtName.setPreferredSize(new java.awt.Dimension(350, 30));
+        table.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        table.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Phân loại thu nhập", "Hành động"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, true
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        table.setPreferredSize(new java.awt.Dimension(400, 500));
+        table.setRowHeight(40);
+        table.setSelectionBackground(new java.awt.Color(57, 137, 111));
+        jScrollPane1.setViewportView(table);
 
         lblName.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        lblName.setText("Name:");
+        lblName.setText("Tên");
+        lblName.setPreferredSize(new java.awt.Dimension(40, 35));
+
+        txtName.setEditable(false);
+        txtName.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        txtName.setPreferredSize(new java.awt.Dimension(250, 35));
 
         btnAdd.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icon_add32.png"))); // NOI18N
-        btnAdd.setText("Thêm mới");
+        btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icon_add20.png"))); // NOI18N
+        btnAdd.setText("Thêm");
+        btnAdd.setPreferredSize(new java.awt.Dimension(100, 35));
         btnAdd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAddActionPerformed(evt);
             }
         });
 
-        btnRefresh.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        btnRefresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icon_refresh32.png"))); // NOI18N
-        btnRefresh.setText("Làm mới");
+        jSeparator1.setPreferredSize(new java.awt.Dimension(1194, 10));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jSeparator1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .addComponent(lblTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(182, 182, 182)
-                .addComponent(jScrollPane2)
-                .addGap(171, 171, 171))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(470, 470, 470)
-                        .addComponent(btnAdd)
-                        .addGap(21, 21, 21)
-                        .addComponent(btnRefresh, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(lblName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(lblName)
-                        .addGap(50, 50, 50)
-                        .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(28, 28, 28))
+                        .addGap(235, 235, 235)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jScrollPane1))))
+                .addGap(313, 313, 313))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addContainerGap()
+                .addComponent(lblTitle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(28, 28, 28)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnRefresh, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(2, 2, 2)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(21, 21, 21)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addComponent(lblName))
-                    .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                        .addGap(3, 3, 3)
+                        .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 333, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(197, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void txtSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyReleased
+        if (txtSearch.isSelected()) {
+            int option = txtSearch.getSelectedIndex();
+            String text = "%" + txtSearch.getText().trim() + "%";
+            if (option == 0) {
+//                loadData2("WHERE [Type] = 1 AND [UserId] = 1 AND [Name] LIKE ?", text);
+                DefaultTableModel model = (DefaultTableModel) table.getModel();
+                model.setRowCount(0);
+                ArrayList<Category> groups = CategoryDAO.getInstance().searchByName(false, text);
+                for (Category group1 : groups) {
+                    model.addRow(new Object[]{group1.getCategoryName()});
+                }
+//            }
+            }
+        }
+    }//GEN-LAST:event_txtSearchKeyReleased
+
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        AddAnIncomeCategory addNewRevenuesTypeR = new AddAnIncomeCategory((Frame) SwingUtilities.getWindowAncestor(this), true);
-        addNewRevenuesTypeR.setSize(500, 300);
-        addNewRevenuesTypeR.setLocationRelativeTo(null);
-        addNewRevenuesTypeR.setVisible(true);
+        AddEditAnIncomeCategory panel = new AddEditAnIncomeCategory((Frame) SwingUtilities.getWindowAncestor(this), true, this, true);
+        panel.setTitle(Constraints.TITLE_ADD_AN_INCOME_CATEGORY);
+        panel.lblTitle.setText(Constraints.TITLE_ADD_AN_INCOME_CATEGORY);
+        panel.setSize(435, 250);
+        panel.setLocationRelativeTo(null);
+        panel.setVisible(true);
     }//GEN-LAST:event_btnAddActionPerformed
 
+    private void initTable() {
+        TableActionEvent event = new TableActionEvent() {
+            @Override
+            public void onEdit(int row) {
+                if (row != -1) {
+                    Category category = categories.get(row);
+                    AddEditAnIncomeCategory panel = new AddEditAnIncomeCategory((Frame) SwingUtilities.getWindowAncestor(ListOfIncomeCategories.this), true, ListOfIncomeCategories.this, category, false);
+                    panel.setTitle(Constraints.TITLE_UPDATE_AN_INCOME_CATEGORY);
+                    panel.lblTitle.setText(Constraints.TITLE_UPDATE_AN_INCOME_CATEGORY);
+                    panel.txtName.setText(category.getCategoryName());
+                    panel.setSize(435, 250);
+                    panel.setLocationRelativeTo(null);
+                    panel.setVisible(true);
+                }
+            }
+
+            @Override
+            public void onDelete(int row) {
+                if (table.isEditing()) {
+                    table.getCellEditor().stopCellEditing();
+                }
+                if (JOptionPane.showConfirmDialog(ListOfIncomeCategories.this, Constraints.CATEGORY_CONFIRM_DELETE_AN_EXPENSE, Constraints.LABEL_CONFIRM, JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                    int result = CategoryDAO.getInstance().delete(categories.get(row));
+                    if (result > 0) {
+                        JOptionPane.showMessageDialog(ListOfIncomeCategories.this, Constraints.CATEGORY_DELETE_SUCCESS, Constraints.LABEL_INFORMATION, JOptionPane.INFORMATION_MESSAGE);
+                        // Xóa hàng trực tiếp từ DefaultTableModel
+                        DefaultTableModel tblModel = (DefaultTableModel) table.getModel();
+                        tblModel.removeRow(row);
+                        loadData();
+                    } else {
+                        JOptionPane.showMessageDialog(ListOfIncomeCategories.this, Constraints.CATEGORY_DELETE_FAIL, Constraints.LABEL_ERROR, JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+            }
+
+        };
+        table.getColumnModel().getColumn(1).setCellRenderer(new TableActionCellRender());
+        table.getColumnModel().getColumn(1).setCellEditor(new TableActionCellEditor(event));
+        // Tạo một đối tượng DefaultTableCellRenderer để căn giữa tiêu đề
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+        table.getColumnModel().getColumn(0).setHeaderRenderer(centerRenderer);
+        table.getColumnModel().getColumn(1).setHeaderRenderer(centerRenderer);
+    }
+
+    public void loadData() {
+        this.categories = CategoryDAO.getInstance().selectbyType(false);
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        model.setRowCount(0);
+        for (Category category : categories) {
+            model.addRow(new Object[]{category.getCategoryName()});
+        }
+
+    }
+
+    private void initSearch() {
+        txtSearch.addOption(new SearchOption("Danh mục", new ImageIcon(getClass().getResource("/icons/icon_list20.png"))));
+        txtSearch.setHint("Tìm kiếm danh mục...");
+        txtSearch.setSelectedIndex(0);
+    }
+    private void showDetails(){
+        ListSelectionModel selectionModel = table.getSelectionModel();
+        selectionModel.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                // Xử lý sự kiện khi người dùng chọn một hàng trong JTable
+                if (!e.getValueIsAdjusting()) {
+                    int selectedRow = table.getSelectedRow();
+                    if (selectedRow != -1) {
+                        // Lấy dữ liệu từ hàng được chọn và hiển thị nó trong các TextField
+                        Object name = table.getValueAt(selectedRow, 0);
+                        txtName.setText(name.toString());
+                    }
+                }
+            }
+        });
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
-    private javax.swing.JButton btnRefresh;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JLabel lblName;
-    private javax.swing.JTable tbeData;
-    private javax.swing.JTextField txtName;
+    private javax.swing.JLabel lblTitle;
+    private javax.swing.JTable table;
+    public javax.swing.JTextField txtName;
+    private com.ptithcm.pe.utilities.search.TextFieldSearchOption txtSearch;
     // End of variables declaration//GEN-END:variables
+
 }

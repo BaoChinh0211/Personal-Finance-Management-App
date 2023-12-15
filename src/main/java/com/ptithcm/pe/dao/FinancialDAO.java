@@ -6,7 +6,7 @@ package com.ptithcm.pe.dao;
 
 import com.ptithcm.pe.PersonalFinanceManagement;
 import com.ptithcm.pe.database.DatabaseHelper;
-import com.ptithcm.pe.model.Financial;
+import com.ptithcm.pe.models.Financial;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -68,14 +68,15 @@ public class FinancialDAO implements DAO<Financial> {
                 Connection con = DatabaseHelper.openConnection();) {
             try {
                 // Bước 2: Tạo ra đối tượng statement
-                String sql = "UPDATE [Financial] SET [Amount] = ?, [DateTime] = ?, Note = ? WHERE [FinancialId] = ?";
+                String sql = "UPDATE [Financial] SET [Amount] = ?, [DateTime] = ?, Note = ?, CategoryId = ? WHERE [FinancialId] = ?";
 
                 PreparedStatement pst = con.prepareStatement(sql);
                 con.setAutoCommit(false);
-                pst.setInt(4, t.getFinancialId());
+                pst.setInt(5, t.getFinancialId());
                 pst.setInt(1, t.getAmount());
                 pst.setTimestamp(2, t.getDateTime());
                 pst.setString(3, t.getNote());
+                pst.setInt(4, t.getCategoryId());
                 //Bước 3: Thực thi câu lệnh SQL
                 result = pst.executeUpdate();
                 //Bước 4: Làm việc với kết quả thu được
@@ -187,13 +188,13 @@ public class FinancialDAO implements DAO<Financial> {
         return result;
     }
 
-    public ArrayList<Financial> selectByGroup(boolean typeCate) {
+    public ArrayList<Financial> selectByCategory(boolean typeCate) {
         ArrayList<Financial> result = new ArrayList<>();
         try {
             //Bước 1: Tạo kết nối cơ sở dữ liệu
             Connection con = DatabaseHelper.openConnection();
             // Bước 2: Tạo ra đối tượng statement
-            String query = "SELECT * FROM Financial WHERE CategoryId IN (SELECT CategoryId FROM dbo.Category WHERE UserId = ? AND CategoryType = ?)";
+            String query = "SELECT * FROM Financial WHERE CategoryId IN (SELECT CategoryId FROM dbo.Category WHERE UserId = ? AND CategoryType = ?) ORDER BY DateTime DESC";
             int userId = PersonalFinanceManagement.getInstance().getUserId();
             PreparedStatement ps = con.prepareStatement(query);
             ps.setInt(1, userId);
