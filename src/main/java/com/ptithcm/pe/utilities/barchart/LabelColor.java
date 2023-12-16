@@ -1,4 +1,4 @@
-package com.ptithcm.pe.utilities.chart;
+package com.ptithcm.pe.utilities.barchart;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;

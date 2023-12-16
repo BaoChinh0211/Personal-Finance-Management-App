@@ -242,10 +242,8 @@ public class AddEditAnExpense extends javax.swing.JDialog {
     }//GEN-LAST:event_btnCancelActionPerformed
 
     private void txtAmountKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtAmountKeyTyped
-        boolean check1, check2, check3;
+        boolean check1;
         check1 = txtAmount.getText().contains(".");
-        check2 = txtAmount.getText().contains("+");
-        check3 = txtAmount.getText().contains("-");
         char c = evt.getKeyChar();
         if (!Character.isDigit(c)){
             if (!Character.isDigit(c) ){

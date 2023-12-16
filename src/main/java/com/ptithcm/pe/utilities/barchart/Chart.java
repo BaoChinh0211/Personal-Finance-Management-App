@@ -1,4 +1,4 @@
-package com.ptithcm.pe.utilities.chart;
+package com.ptithcm.pe.utilities.barchart;
 
 import com.ptithcm.pe.utilities.blankchart.BlankPlotChart;
 import com.ptithcm.pe.utilities.blankchart.BlankPlotChatRender;

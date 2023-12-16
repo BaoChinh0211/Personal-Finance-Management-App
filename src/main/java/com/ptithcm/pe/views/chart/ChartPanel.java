@@ -4,12 +4,26 @@
  */
 package com.ptithcm.pe.views.chart;
 
+import com.ptithcm.pe.PersonalFinanceManagement;
+import com.ptithcm.pe.database.DatabaseHelper;
 import com.ptithcm.pe.utilities.Constraints;
 import com.ptithcm.pe.models.ChartBar;
-import com.ptithcm.pe.utilities.chart.ModelChart;
+import com.ptithcm.pe.utilities.barchart.ModelChart;
+import com.ptithcm.pe.utilities.piechart.ModelPieChart;
+import com.ptithcm.pe.utilities.tablecustom.TableCustom;
 import java.awt.Color;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -24,7 +38,11 @@ public class ChartPanel extends javax.swing.JPanel {
         initComponents();
         chart1.addLegend("Chi tiêu", new Color(245, 189, 135));
         chart1.addLegend("Thu nhập", new Color(135, 189, 245));
-        initChart();
+        initBarChart();
+        initExpensePieChart();
+        initIncomePieChart();
+
+        TableCustom.apply(jScrollPane1, TableCustom.TableType.DEFAULT);
     }
 
     /**
@@ -40,13 +58,32 @@ public class ChartPanel extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
         tabbedPane = new com.ptithcm.pe.utilities.tabbedPane.TabbedPaneCustom();
         panelChartBar = new javax.swing.JPanel();
-        chart1 = new com.ptithcm.pe.utilities.chart.Chart();
+        chart1 = new com.ptithcm.pe.utilities.barchart.Chart();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         yearChooser = new com.toedter.calendar.JYearChooser();
         jButton1 = new javax.swing.JButton();
         panelBieChart = new javax.swing.JPanel();
+        jPanel3 = new javax.swing.JPanel();
+        jLabel4 = new javax.swing.JLabel();
+        pieChartYearChooser = new com.toedter.calendar.JYearChooser();
+        jLabel3 = new javax.swing.JLabel();
+        cbbMonthChooser = new javax.swing.JComboBox<>();
+        jPanel4 = new javax.swing.JPanel();
+        expensePieChart = new com.ptithcm.pe.utilities.piechart.PieChart();
+        lbExpensePieChart = new javax.swing.JLabel();
+        jPanel5 = new javax.swing.JPanel();
+        incomePieChart = new com.ptithcm.pe.utilities.piechart.PieChart();
+        lbIncomePieChart = new javax.swing.JLabel();
         panelstatistic = new javax.swing.JPanel();
+        jPanel6 = new javax.swing.JPanel();
+        dateStartChooser = new com.toedter.calendar.JDateChooser();
+        dateEndChooser = new com.toedter.calendar.JDateChooser();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jPanel7 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tableStatistical = new javax.swing.JTable();
 
         jPanel1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jPanel1.setPreferredSize(new java.awt.Dimension(988, 75));
@@ -79,7 +116,6 @@ public class ChartPanel extends javax.swing.JPanel {
         jLabel2.setText("Chọn năm:");
         jLabel2.setPreferredSize(new java.awt.Dimension(70, 35));
 
-        yearChooser.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         yearChooser.setPreferredSize(new java.awt.Dimension(65, 35));
         yearChooser.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
@@ -128,7 +164,7 @@ public class ChartPanel extends javax.swing.JPanel {
                 .addGroup(panelChartBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelChartBarLayout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(chart1, javax.swing.GroupLayout.DEFAULT_SIZE, 971, Short.MAX_VALUE))
+                        .addComponent(chart1, javax.swing.GroupLayout.DEFAULT_SIZE, 1016, Short.MAX_VALUE))
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -144,28 +180,254 @@ public class ChartPanel extends javax.swing.JPanel {
 
         tabbedPane.addTab("Thống kê theo năm", panelChartBar);
 
+        jPanel3.setPreferredSize(new java.awt.Dimension(971, 60));
+
+        jLabel4.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
+        jLabel4.setText("Năm");
+        jLabel4.setPreferredSize(new java.awt.Dimension(40, 30));
+
+        pieChartYearChooser.setPreferredSize(new java.awt.Dimension(70, 30));
+        pieChartYearChooser.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                pieChartYearChooserPropertyChange(evt);
+            }
+        });
+
+        jLabel3.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
+        jLabel3.setText("Tháng:");
+        jLabel3.setPreferredSize(new java.awt.Dimension(40, 30));
+
+        cbbMonthChooser.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
+        cbbMonthChooser.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6", "Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12" }));
+        cbbMonthChooser.setPreferredSize(new java.awt.Dimension(135, 30));
+        cbbMonthChooser.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbbMonthChooserItemStateChanged(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(pieChartYearChooser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(32, 32, 32)
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(cbbMonthChooser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(pieChartYearChooser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cbbMonthChooser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(24, Short.MAX_VALUE))
+        );
+
+        lbExpensePieChart.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        lbExpensePieChart.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbExpensePieChart.setText("Biểu đồ chi tiêu");
+        lbExpensePieChart.setPreferredSize(new java.awt.Dimension(300, 35));
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(expensePieChart, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lbExpensePieChart, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 488, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(expensePieChart, javax.swing.GroupLayout.DEFAULT_SIZE, 535, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(lbExpensePieChart, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        lbIncomePieChart.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        lbIncomePieChart.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbIncomePieChart.setText("Biểu đồ thu nhập");
+        lbIncomePieChart.setPreferredSize(new java.awt.Dimension(300, 35));
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(incomePieChart, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lbIncomePieChart, javax.swing.GroupLayout.DEFAULT_SIZE, 486, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(incomePieChart, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(lbIncomePieChart, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
         javax.swing.GroupLayout panelBieChartLayout = new javax.swing.GroupLayout(panelBieChart);
         panelBieChart.setLayout(panelBieChartLayout);
         panelBieChartLayout.setHorizontalGroup(
             panelBieChartLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 983, Short.MAX_VALUE)
+            .addGroup(panelBieChartLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelBieChartLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelBieChartLayout.createSequentialGroup()
+                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 1016, Short.MAX_VALUE))
+                .addContainerGap())
         );
         panelBieChartLayout.setVerticalGroup(
             panelBieChartLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 684, Short.MAX_VALUE)
+            .addGroup(panelBieChartLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(panelBieChartLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         tabbedPane.addTab("Thống kê theo tháng trong năm", panelBieChart);
+
+        jPanel6.setPreferredSize(new java.awt.Dimension(971, 60));
+
+        Calendar calendar = new GregorianCalendar();
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
+        Date firstDayOfMonth = calendar.getTime();
+        //Date cbbDateFrom = java.util.Calendar.getInstance().getTime();
+        dateStartChooser.setDate(firstDayOfMonth);
+        dateStartChooser.setDateFormatString("dd-MM-yyyy");
+        dateStartChooser.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
+        dateStartChooser.setPreferredSize(new java.awt.Dimension(0, 35));
+        dateStartChooser.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                dateStartChooserPropertyChange(evt);
+            }
+        });
+
+        Date cbbDateEnd = java.util.Calendar.getInstance().getTime();
+        dateEndChooser.setDate(cbbDateEnd);
+        dateEndChooser.setDateFormatString("dd-MM-yyyy");
+        dateEndChooser.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
+        dateEndChooser.setPreferredSize(new java.awt.Dimension(0, 35));
+        dateEndChooser.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                dateEndChooserPropertyChange(evt);
+            }
+        });
+
+        jLabel7.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
+        jLabel7.setText("Ngày bắt đầu:");
+        jLabel7.setPreferredSize(new java.awt.Dimension(90, 35));
+
+        jLabel8.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
+        jLabel8.setText("Ngày kết thúc:");
+        jLabel8.setPreferredSize(new java.awt.Dimension(90, 35));
+
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                .addContainerGap(446, Short.MAX_VALUE)
+                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(dateStartChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(dateEndChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(dateEndChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(dateStartChooser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        tableStatistical.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Thời gian", "Tổng chi tiêu", "Tổng thu nhập", "Số dư"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(tableStatistical);
+
+        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
+        jPanel7.setLayout(jPanel7Layout);
+        jPanel7Layout.setHorizontalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1)
+                .addContainerGap())
+        );
+        jPanel7Layout.setVerticalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(547, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout panelstatisticLayout = new javax.swing.GroupLayout(panelstatistic);
         panelstatistic.setLayout(panelstatisticLayout);
         panelstatisticLayout.setHorizontalGroup(
             panelstatisticLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 983, Short.MAX_VALUE)
+            .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, 1028, Short.MAX_VALUE)
+            .addGroup(panelstatisticLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panelstatisticLayout.setVerticalGroup(
             panelstatisticLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 684, Short.MAX_VALUE)
+            .addGroup(panelstatisticLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         tabbedPane.addTab("Thống kê theo tuần trong tháng", panelstatistic);
@@ -178,7 +440,7 @@ public class ChartPanel extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(tabbedPane, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 1033, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -201,36 +463,213 @@ public class ChartPanel extends javax.swing.JPanel {
 
     private void yearChooserPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_yearChooserPropertyChange
         chart1.clear();
-        initChart() ;
+        initBarChart();
         chart1.start();
     }//GEN-LAST:event_yearChooserPropertyChange
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         chart1.clear();
-        initChart() ;
+        initBarChart();
         chart1.start();
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void pieChartYearChooserPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_pieChartYearChooserPropertyChange
+        initExpensePieChart();
+        initIncomePieChart();
+        lbExpensePieChart.setText("Biểu đồ chi tiêu trong tháng " + cbbMonthChooser.getSelectedItem().toString() + " năm " + String.valueOf(yearChooser.getValue()));
+        lbIncomePieChart.setText("Biểu đồ thu nhập trong tháng " + cbbMonthChooser.getSelectedItem().toString() + " năm " + String.valueOf(yearChooser.getValue()));
+    }//GEN-LAST:event_pieChartYearChooserPropertyChange
+
+    private void cbbMonthChooserItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbbMonthChooserItemStateChanged
+        initExpensePieChart();
+        initIncomePieChart();
+        lbExpensePieChart.setText("Biểu đồ chi tiêu trong tháng " + cbbMonthChooser.getSelectedItem().toString() + " năm " + String.valueOf(yearChooser.getValue()));
+        lbIncomePieChart.setText("Biểu đồ thu nhập trong tháng " + cbbMonthChooser.getSelectedItem().toString() + " năm " + String.valueOf(yearChooser.getValue()));
+    }//GEN-LAST:event_cbbMonthChooserItemStateChanged
+
+    private void dateEndChooserPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_dateEndChooserPropertyChange
+        Timestamp dateStart = new Timestamp(dateStartChooser.getDate().getTime());
+        Timestamp dateEnd = new Timestamp(dateEndChooser.getDate().getTime());
+        if (dateEnd.before(dateStart)) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn ngày kết thúc sau ngày bắt đầu.");
+            dateEndChooser.setDate(new Date(dateStart.getTime()));
+            showDataByDate(dateStart, dateStart);
+        } else
+            showDataByDate(dateStart, dateEnd);
+    }//GEN-LAST:event_dateEndChooserPropertyChange
+
+    private void dateStartChooserPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_dateStartChooserPropertyChange
+        Timestamp dateStart = new Timestamp(dateStartChooser.getDate().getTime());
+        Timestamp dateEnd = new Timestamp(dateEndChooser.getDate().getTime());
+        if (dateStart.after(dateEnd)) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn ngày bắt đầu trước ngày kết thúc.");
+            dateStartChooser.setDate(new Date(dateEnd.getTime()));
+            showDataByDate(dateEnd, dateEnd);
+        } else
+            showDataByDate(dateStart, dateEnd);
+    }//GEN-LAST:event_dateStartChooserPropertyChange
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    public com.ptithcm.pe.utilities.chart.Chart chart1;
+    private javax.swing.JComboBox<String> cbbMonthChooser;
+    public com.ptithcm.pe.utilities.barchart.Chart chart1;
+    private com.toedter.calendar.JDateChooser dateEndChooser;
+    private com.toedter.calendar.JDateChooser dateStartChooser;
+    private com.ptithcm.pe.utilities.piechart.PieChart expensePieChart;
+    private com.ptithcm.pe.utilities.piechart.PieChart incomePieChart;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lbExpensePieChart;
+    private javax.swing.JLabel lbIncomePieChart;
     private javax.swing.JPanel panelBieChart;
     public javax.swing.JPanel panelChartBar;
     private javax.swing.JPanel panelstatistic;
+    private com.toedter.calendar.JYearChooser pieChartYearChooser;
     private com.ptithcm.pe.utilities.tabbedPane.TabbedPaneCustom tabbedPane;
+    private javax.swing.JTable tableStatistical;
     private com.toedter.calendar.JYearChooser yearChooser;
     // End of variables declaration//GEN-END:variables
 
-    private void initChart() {
+    private void initBarChart() {
         ArrayList<ChartBar> chartBars = ChartBar.getInstance().getData(yearChooser.getYear());
         for (ChartBar chartBar : chartBars) {
             ModelChart modelChart = new ModelChart("Tháng" + chartBar.getMonth(), new double[]{chartBar.getTotalExpense(), chartBar.getTotalIncome()});
             chart1.addData(modelChart);
         }
+    }
+
+    private ArrayList<ModelPieChart> showDataPieChart(boolean type, int year, int month) {
+        ArrayList<ModelPieChart> list = new ArrayList<>();
+        try {
+            //Bước 1: Tạo kết nối cơ sở dữ liệu
+            Connection con = DatabaseHelper.openConnection();
+
+            // Bước 2: Tạo ra đối tượng statement
+            String sql = "SELECT SUM(f.Amount) AS Total, c.CategoryName \n"
+                    + "FROM Financial f \n"
+                    + "	JOIN Category c ON f.CategoryId = c.CategoryId\n"
+                    + "	AND c.CategoryType = ? AND c.UserId = ?\n"
+                    + "WHERE YEAR(f.DateTime) = ? AND MONTH(f.DateTime) = ?\n"
+                    + "GROUP BY c.CategoryName\n"
+                    + "ORDER BY SUM(f.Amount)";
+            int userId = PersonalFinanceManagement.getInstance().getUserId();
+            PreparedStatement pst = con.prepareStatement(sql);
+            pst.setBoolean(1, type);
+            pst.setInt(2, userId);
+            pst.setInt(3, year);
+            pst.setInt(4, month);
+
+            //Bước 3: Thực thi câu lệnh SQL
+            ResultSet rs = pst.executeQuery();
+            //Bước 4: Làm việc với kết quả thu được
+            int index = 0;
+            while (rs.next()) {
+                int total = rs.getInt("Total");
+                String categoryName = rs.getString("CategoryName");
+                ModelPieChart model = new ModelPieChart(categoryName, total, getColor(index++));
+                list.add(model);
+            }
+            //Bước 5: Ngắt kết nối
+            pst.close();
+            DatabaseHelper.closeConnection(con);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    private Color getColor(int index) {
+        Color[] color = new Color[]{
+            new Color(255, 102, 102),
+            new Color(58, 55, 227),
+            new Color(206, 215, 33),
+            new Color(29, 184, 185),
+            new Color(255, 91, 91),
+            new Color(94, 217, 214),
+            new Color(43, 45, 250),
+            new Color(200, 169, 86),
+            new Color(95, 111, 82),
+            new Color(185, 148, 112),
+            new Color(38, 80, 115),
+            new Color(45, 149, 150),
+            new Color(238, 114, 20),
+            new Color(190, 90, 131),};
+        return color[index];
+    }
+
+    private void initExpensePieChart() {
+        expensePieChart.clearData();
+        ArrayList<ModelPieChart> modelPieCharts;
+        modelPieCharts = showDataPieChart(true, pieChartYearChooser.getValue(), cbbMonthChooser.getSelectedIndex() + 1);
+        for (ModelPieChart modelPieChart : modelPieCharts) {
+            expensePieChart.addData(modelPieChart);
+        }
+    }
+
+    private void initIncomePieChart() {
+        incomePieChart.clearData();
+        ArrayList<ModelPieChart> modelPieCharts;
+        modelPieCharts = showDataPieChart(false, pieChartYearChooser.getValue(), cbbMonthChooser.getSelectedIndex() + 1);
+        for (ModelPieChart modelPieChart : modelPieCharts) {
+            incomePieChart.addData(modelPieChart);
+        }
+    }
+
+    private void showDataByDate(Timestamp dateStart, Timestamp dateEnd) {
+        try {
+            //Bước 1: Tạo kết nối cơ sở dữ liệu
+            Connection con = DatabaseHelper.openConnection();
+
+            // Bước 2: Tạo ra đối tượng statement
+            String sql = "SELECT ? AS TimeRange,\n"
+                    + "       COALESCE(SUM(CASE WHEN c.CategoryType = 1 THEN f.Amount ELSE 0 END), 0) AS TotalExpenditure,\n"
+                    + "       COALESCE(SUM(CASE WHEN c.CategoryType = 0 THEN f.Amount ELSE 0 END), 0) AS TotalIncome,\n"
+                    + "       COALESCE(SUM(CASE WHEN c.CategoryType = 0 THEN f.Amount ELSE 0 END), 0) - COALESCE(SUM(CASE WHEN c.CategoryType = 1 THEN f.Amount ELSE 0 END), 0) AS Balance\n"
+                    + "FROM Financial f\n"
+                    + "LEFT JOIN Category c ON f.CategoryId = c.CategoryId AND c.CategoryType IN (0, 1) AND c.UserId = ?\n"
+                    + "WHERE f.DateTime BETWEEN ? AND ?;";
+            int userId = PersonalFinanceManagement.getInstance().getUserId();
+            String rangeTime = formatDateRange(dateStart, dateEnd);
+            PreparedStatement pst = con.prepareStatement(sql);
+            pst.setString(1, rangeTime);
+            pst.setInt(2, userId);
+            pst.setTimestamp(3, dateStart);
+            pst.setTimestamp(4, dateEnd);
+            //Bước 3: Thực thi câu lệnh SQL
+            ResultSet rs = pst.executeQuery();
+            //Bước 4: Làm việc với kết quả thu được
+            int index = 0;
+            DefaultTableModel model = (DefaultTableModel) tableStatistical.getModel();
+            model.setRowCount(0);
+            while (rs.next()) {
+                int totalExpense = rs.getInt("TotalExpenditure");
+                int totalIncome = rs.getInt("TotalIncome");
+                int balance = rs.getInt("Balance");
+                model.addRow(new Object[]{rangeTime, totalExpense, totalIncome, balance});
+            }
+            //Bước 5: Ngắt kết nối
+            pst.close();
+            DatabaseHelper.closeConnection(con);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private String formatDateRange(Timestamp startDate, Timestamp endDate) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        return dateFormat.format(startDate) + "-" + dateFormat.format(endDate);
     }
 }

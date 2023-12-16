@@ -1,5 +1,5 @@
 
-package com.ptithcm.pe.utilities.chart;
+package com.ptithcm.pe.utilities.barchart;
 
 public class LegendItem extends javax.swing.JPanel {
 
@@ -16,7 +16,7 @@ public class LegendItem extends javax.swing.JPanel {
     private void initComponents() {
 
         lbName = new javax.swing.JLabel();
-        lbColor = new com.ptithcm.pe.utilities.chart.LabelColor();
+        lbColor = new com.ptithcm.pe.utilities.barchart.LabelColor();
 
         lbName.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         lbName.setForeground(new java.awt.Color(100, 100, 100));
@@ -50,7 +50,7 @@ public class LegendItem extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private com.ptithcm.pe.utilities.chart.LabelColor lbColor;
+    private com.ptithcm.pe.utilities.barchart.LabelColor lbColor;
     private javax.swing.JLabel lbName;
     // End of variables declaration//GEN-END:variables
 }

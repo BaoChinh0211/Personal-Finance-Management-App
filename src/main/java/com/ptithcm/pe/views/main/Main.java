@@ -12,6 +12,9 @@ import com.ptithcm.pe.views.expense.ListOfExpenses;
 import com.ptithcm.pe.views.expense.ListOfExpenseCategories;
 import com.ptithcm.pe.views.income.ListOfIncomeCategories;
 import com.ptithcm.pe.views.income.ListOfIncome;
+import com.ptithcm.pe.views.login.Login;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.*;
 
 /**
@@ -49,7 +52,6 @@ public class Main extends javax.swing.JFrame {
         jSeparator7 = new javax.swing.JToolBar.Separator();
         btnStatistic = new javax.swing.JButton();
         jSeparator4 = new javax.swing.JToolBar.Separator();
-        btnMyInformation = new javax.swing.JButton();
         btnCloseTab = new javax.swing.JButton();
         tabbedPane = new com.ptithcm.pe.utilities.tabbedPane.TabbedPaneCustom();
         jPanel1 = new javax.swing.JPanel();
@@ -67,8 +69,6 @@ public class Main extends javax.swing.JFrame {
         mniListOfIncomeCategories = new javax.swing.JMenuItem();
         jSeparator3 = new javax.swing.JPopupMenu.Separator();
         mniStatistics = new javax.swing.JMenuItem();
-        jSeparator8 = new javax.swing.JPopupMenu.Separator();
-        MyInformation = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
@@ -147,19 +147,6 @@ public class Main extends javax.swing.JFrame {
         jToolBar1.add(btnStatistic);
         jToolBar1.add(jSeparator4);
 
-        btnMyInformation.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        btnMyInformation.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icon_myProfile32.png"))); // NOI18N
-        btnMyInformation.setText(Constraints.TITLE_MY_INFORMATION);
-        btnMyInformation.setFocusable(false);
-        btnMyInformation.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnMyInformation.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        btnMyInformation.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnMyInformationActionPerformed(evt);
-            }
-        });
-        jToolBar1.add(btnMyInformation);
-
         btnCloseTab.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         btnCloseTab.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icon_close32.png"))); // NOI18N
         btnCloseTab.setText(com.ptithcm.pe.utilities.Constraints.TITLE_CLOSE_WINDOWS);
@@ -203,6 +190,11 @@ public class Main extends javax.swing.JFrame {
         mniLogout.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         mniLogout.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icon_logout.png"))); // NOI18N
         mniLogout.setText(Constraints.TITLE_LOGOUT);
+        mniLogout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mniLogoutActionPerformed(evt);
+            }
+        });
         menuFile.add(mniLogout);
         menuFile.add(jSeparator5);
 
@@ -273,16 +265,6 @@ public class Main extends javax.swing.JFrame {
             }
         });
         jMenu2.add(mniStatistics);
-        jMenu2.add(jSeparator8);
-
-        MyInformation.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icon_myProfile32.png"))); // NOI18N
-        MyInformation.setText(Constraints.TITLE_MY_INFORMATION);
-        MyInformation.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                MyInformationActionPerformed(evt);
-            }
-        });
-        jMenu2.add(MyInformation);
 
         jMenuBar1.add(jMenu2);
 
@@ -333,33 +315,17 @@ public class Main extends javax.swing.JFrame {
             System.exit(0);
     }//GEN-LAST:event_mniExitActionPerformed
 
-    private void mniListOfExpensesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniListOfExpensesActionPerformed
-        showListOfExpenses();
-    }//GEN-LAST:event_mniListOfExpensesActionPerformed
-
     private void btnListOfExpensesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnListOfExpensesActionPerformed
         showListOfExpenses();
     }//GEN-LAST:event_btnListOfExpensesActionPerformed
-
-    private void mniListOfExpenseCategoriesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniListOfExpenseCategoriesActionPerformed
-        showListOfExpenseCategories();
-    }//GEN-LAST:event_mniListOfExpenseCategoriesActionPerformed
 
     private void btnListOfExpenseCategoriesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnListOfExpenseCategoriesActionPerformed
         showListOfExpenseCategories();
     }//GEN-LAST:event_btnListOfExpenseCategoriesActionPerformed
 
-    private void mniListOfIncomesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniListOfIncomesActionPerformed
-        showListOfIncomes();
-    }//GEN-LAST:event_mniListOfIncomesActionPerformed
-
     private void btnListOfIncomesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnListOfIncomesActionPerformed
         showListOfIncomes();
     }//GEN-LAST:event_btnListOfIncomesActionPerformed
-
-    private void mniListOfIncomeCategoriesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniListOfIncomeCategoriesActionPerformed
-        showListOfIncomeCategories();
-    }//GEN-LAST:event_mniListOfIncomeCategoriesActionPerformed
 
     private void btnListOfIncoeCategoriesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnListOfIncoeCategoriesActionPerformed
         showListOfIncomeCategories();
@@ -369,28 +335,50 @@ public class Main extends javax.swing.JFrame {
         showChart();
     }//GEN-LAST:event_btnStatisticActionPerformed
 
-    private void mniStatisticsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniStatisticsActionPerformed
-        showChart();
-    }//GEN-LAST:event_mniStatisticsActionPerformed
-
-    private void MyInformationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MyInformationActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_MyInformationActionPerformed
-
-    private void btnMyInformationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMyInformationActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnMyInformationActionPerformed
-
     private void btnCloseTabActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseTabActionPerformed
-        for (int i = 0; i < tabbedPane.getTabCount(); i++) {
-            if (!tabbedPane.getTitleAt(i).equals(Constraints.TITLE_HOME)) {
-                int selectedIndex = tabbedPane.getSelectedIndex();
+//        for (int i = 0; i < tabbedPane.getTabCount(); i++) {
+//            if (!tabbedPane.getTitleAt(i).equals(Constraints.TITLE_HOME)) {
+//                int selectedIndex = tabbedPane.getSelectedIndex();
+//                if (selectedIndex != -1) {
+//                    tabbedPane.removeTabAt(selectedIndex);
+//                }
+//            }
+//        }
+            int selectedIndex = tabbedPane.getSelectedIndex();
+            if (!tabbedPane.getTitleAt(selectedIndex).equals(Constraints.TITLE_HOME)) {               
                 if (selectedIndex != -1) {
                     tabbedPane.removeTabAt(selectedIndex);
                 }
             }
-        }
+
     }//GEN-LAST:event_btnCloseTabActionPerformed
+
+    private void mniStatisticsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniStatisticsActionPerformed
+        showChart();
+    }//GEN-LAST:event_mniStatisticsActionPerformed
+
+    private void mniListOfIncomeCategoriesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniListOfIncomeCategoriesActionPerformed
+        showListOfIncomeCategories();
+    }//GEN-LAST:event_mniListOfIncomeCategoriesActionPerformed
+
+    private void mniListOfIncomesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniListOfIncomesActionPerformed
+        showListOfIncomes();
+    }//GEN-LAST:event_mniListOfIncomesActionPerformed
+
+    private void mniListOfExpenseCategoriesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniListOfExpenseCategoriesActionPerformed
+        showListOfExpenseCategories();
+    }//GEN-LAST:event_mniListOfExpenseCategoriesActionPerformed
+
+    private void mniListOfExpensesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniListOfExpensesActionPerformed
+        showListOfExpenses();
+    }//GEN-LAST:event_mniListOfExpensesActionPerformed
+
+    private void mniLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniLogoutActionPerformed
+        if (JOptionPane.showConfirmDialog(this, "Bạn muốn đăng xuất?", Constraints.LABEL_CONFIRM, JOptionPane.YES_NO_OPTION)== JOptionPane.YES_OPTION) {
+            this.dispose();
+            new Login().setVisible(true);
+        }
+    }//GEN-LAST:event_mniLogoutActionPerformed
 
     private void showListOfExpenses() {
         boolean flag = TabbedPaneUtilities.checkTabbedExist(Constraints.TITLE_LIST_OF_EXPENSES, tabbedPane);
@@ -472,13 +460,11 @@ public class Main extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenuItem MyInformation;
     private javax.swing.JButton btnCloseTab;
     private javax.swing.JButton btnListOfExpenseCategories;
     private javax.swing.JButton btnListOfExpenses;
     private javax.swing.JButton btnListOfIncoeCategories;
     private javax.swing.JButton btnListOfIncomes;
-    private javax.swing.JButton btnMyInformation;
     private javax.swing.JButton btnStatistic;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
@@ -493,7 +479,6 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator jSeparator5;
     private javax.swing.JToolBar.Separator jSeparator6;
     private javax.swing.JToolBar.Separator jSeparator7;
-    private javax.swing.JPopupMenu.Separator jSeparator8;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JMenu menuFile;
     private javax.swing.JMenuItem mniExit;

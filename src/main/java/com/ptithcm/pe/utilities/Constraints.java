@@ -10,7 +10,6 @@ public class Constraints {
     /* Title */
     public static final String TITLE_HOME = "Giới thiệu",
             TITLE_MAIN = "Quản lý chi tiêu cá nhân",
-            TITLE_MY_INFORMATION = "Thông tin cá nhân",
             TITLE_CHART = "Biểu đồ",
             TITLE_CLOSE_WINDOWS = "Đóng cửa sổ",
             TITLE_LOGIN = "Đăng nhập",
